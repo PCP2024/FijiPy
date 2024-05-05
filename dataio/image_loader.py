@@ -7,9 +7,10 @@ Created on Tue Apr 30 16:56:04 2024
 
 import cv2
 
+
 def load_image(imagename):
-        """
-   Imports an image 
+    """
+    Imports an image
 
     Parameters
     ----------
@@ -24,4 +25,4 @@ def load_image(imagename):
         
     """
     
-    return cv2.imread(imagename)}
+    return cv2.imread(imagename)
