@@ -30,7 +30,6 @@ class TestLoadImage(unittest.TestCase):
         """ Test load_image with a path to a file of the wrong type """
         #self.assertRaises(TypeError, self.load_image, self.wrong_demo_data_path)
         self.assertIsNone(self.load_image(self.path_to_wrong_file_type))
-        print(self.load_image(self.path_to_wrong_file_type))
 
     def test_load_image_with_wrong_path_datatype(self):
         """ Test load_image with a non-string (float) input to file path """
