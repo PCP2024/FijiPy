@@ -5,7 +5,11 @@ import numpy as np
 
 class FijiPyTestImageDenoising(unittest.TestCase):
     """ Test the image denoising functionality. """
-    
+    def setUp(self):
+        self.image_denoising_module = image_denoising
+        self.cv2_module = cv2
+        self.numpy_module = np
+
     def test_import_modules(self):
         """ Test that required modules can be imported. """
         modules = [
