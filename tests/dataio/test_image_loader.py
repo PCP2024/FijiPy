@@ -9,8 +9,8 @@ class TestLoadImage(unittest.TestCase):
         """ Set up test variables as object attributes """
         self.load_image = image_loader.load_image
         self.demo_data_path = "demodata/demo_Image.jpg"
-        self.wrong_demo_data_path = "../../demodata/demoImage.jpg"
-        self.path_to_wrong_file_type = "../../dataio/image_loader.py"
+        self.wrong_demo_data_path = "demodata/demoImage.jpg"
+        self.path_to_wrong_file_type = "dataio/image_loader.py"
         self.wrong_path_datatype = 123.321
 
     def tearDown(self):
