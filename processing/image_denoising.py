@@ -20,7 +20,7 @@ def median_filter(image, kernel_size):
     denoised_image = cv2.medianBlur(image, kernel_size)
     return denoised_image
 
-def gaussian_filter(image, sigma):
+def gaussian_filter(image, kernel_size, sigma):
     """
     Apply Gaussian filtering to the input image.
 
@@ -41,7 +41,7 @@ def gaussian_filter(image, sigma):
         grayscale_image = image
 
     # Apply Gaussian filter
-    denoised_grayscale_image = cv2.GaussianBlur(grayscale_image, (0, 0), sigma)
+    denoised_grayscale_image = cv2.GaussianBlur(grayscale_image, kernel_size, sigma)
 
     # Convert the denoised grayscale image back to the original color format
     if len(original_shape) == 3:
@@ -68,6 +68,6 @@ def denoise_image(image, algorithm='median',):
     if algorithm == 'median':
         denoised_image = median_filter(image, data['kernel_size'])
     elif algorithm == 'gaussian':
-        denoised_image = gaussian_filter(image, data['sigma'])
+        denoised_image = gaussian_filter(image, data['kernel_size'], data['sigma'])
 
     return denoised_image
