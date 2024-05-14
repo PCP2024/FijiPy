@@ -4,7 +4,7 @@ import os
 with open("data_file.json", "r") as read_file:
     data = json.load(read_file)
 
-def image_cropping(image, crop_width, crop_height, crop_x=0, crop_y=0):
+def crop_image(image, crop_width, crop_height, crop_x=0, crop_y=0):
         """
         Crop image into a desired size.
 
