@@ -55,6 +55,6 @@ def binarize_image(image_path=None, image=None):
 
 ############################################
 # test the function above
-image_path = 'demodata\demo_Image.jpg'
-binary_image = binarize_image(image_path=image_path)
-cv2.imwrite('demodata\demo_Image_binary.jpg', binary_image)
+#image_path = 'demodata\demo_Image.jpg'
+#binary_image = binarize_image(image_path=image_path)
+#cv2.imwrite('demodata\demo_Image_binary.jpg', binary_image)
