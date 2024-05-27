@@ -40,3 +40,21 @@ def generate_per_channel_saliency(image: np.ndarray, patch_size: int = 15) -> np
         saliency_maps[:, :, channel] = saliency_maps[:, :, channel]/np.max(saliency_maps[:, :, channel])
 
     return saliency_maps
+
+def merge_saliency_maps(saliency_maps: np.ndarray) -> np.ndarray:
+    """
+    Merges three saliency maps into one by averaging their values.
+
+    Parameters
+    ----------
+    saliency_maps : numpy.ndarray
+        Array of size (NxMxC), (NxM) is the size of the image and C is 3 for RGB.
+
+    Returns
+    -------
+    merged_map : numpy.ndarray
+        Array of size (NxM) containing the averaged saliency values.
+    """
+    # Calculate the average saliency map across the channels
+    merged_map = np.mean(saliency_maps, axis=-1)
+    return merged_map
