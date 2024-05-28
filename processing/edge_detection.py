@@ -31,6 +31,6 @@ def detect_edges(image_path=None, image=None):
 
 ############################################
 # test the function above
-image_path = 'demodata\demo_Image.jpg'
-edges = detect_edges(image_path=image_path)
-cv2.imwrite('demodata\demo_Image_edges.jpg', edges)
+#image_path = 'demodata\demo_Image.jpg'
+#edges = detect_edges(image_path=image_path)
+#cv2.imwrite('demodata\demo_Image_edges.jpg', edges)
