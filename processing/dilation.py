@@ -1,15 +1,17 @@
 import cv2
 import json
+from configuration import config_utils 
 
 with open("data_file.json", "r") as read_file:
     data = json.load(read_file)
 
 # start loading this from configuration/config_utils.py
-STRUCTURING_ELEMENT_TYPE_MAP = {
-    "MORPH_RECT": cv2.MORPH_RECT,
-    "MORPH_ELLIPSE": cv2.MORPH_ELLIPSE,
-    "MORPH_CROSS": cv2.MORPH_CROSS
-}
+# STRUCTURING_ELEMENT_TYPE_MAP = {
+#     "MORPH_RECT": cv2.MORPH_RECT,
+#     "MORPH_ELLIPSE": cv2.MORPH_ELLIPSE,
+#     "MORPH_CROSS": cv2.MORPH_CROSS
+# }
+
 ############################################
 def dilate_image(image, kernel_size=None, iterations=None):
     """
@@ -31,7 +33,7 @@ def dilate_image(image, kernel_size=None, iterations=None):
         iterations = data['dilation_iterations']
 
     structuring_element_type = data['structuring_element_type']
-    structuring_element = cv2.getStructuringElement(STRUCTURING_ELEMENT_TYPE_MAP[structuring_element_type], kernel_size)
+    structuring_element = cv2.getStructuringElement(config_utils.STRUCTURING_ELEMENT_TYPE_MAP[structuring_element_type], kernel_size)
     dilated_image = cv2.dilate(image, structuring_element, iterations=iterations)
     return dilated_image
 
