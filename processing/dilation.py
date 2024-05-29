@@ -39,6 +39,6 @@ def dilate_image(image, kernel_size=None, iterations=None):
 
 ############################################
 # test the function above
-image_path = 'demodata\demo_Image.jpg'
-dilated_image = dilate_image(image_path, data['structuring_element_size'])
-cv2.imwrite('demodata\demo_Image_dilated.jpg', dilated_image)
+#image_path = 'demodata\demo_Image.jpg'
+#dilated_image = dilate_image(image_path, data['structuring_element_size'])
+#cv2.imwrite('demodata\demo_Image_dilated.jpg', dilated_image)
