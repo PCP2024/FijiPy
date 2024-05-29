@@ -1,19 +1,10 @@
 import cv2
 import json
-from configuration.config_utils import THRESHOLD_TYPE_MAP
-# # TODO: Move this to a configuration file and figure out how to load it.
-# THRESHOLD_TYPE_MAP = {
-#     "THRESH_BINARY": cv2.THRESH_BINARY,
-#     "THRESH_BINARY_INV": cv2.THRESH_BINARY_INV,
-#     "THRESH_TRUNC": cv2.THRESH_TRUNC,
-#     "THRESH_TOZERO": cv2.THRESH_TOZERO,
-#     "THRESH_TOZERO_INV": cv2.THRESH_TOZERO_INV,
-#     "THRESH_MASK": cv2.THRESH_MASK,
-#     "THRESH_OTSU": cv2.THRESH_OTSU,
-#     "THRESH_TRIANGLE": cv2.THRESH_TRIANGLE,
-#     "THRESH_BINARY_OTSU": cv2.THRESH_BINARY + cv2.THRESH_OTSU  # Otsu's thresholding with binary thresholding
-# }
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+from configuration.config_utils import THRESHOLD_TYPE_MAP
 
 with open("data_file.json", "r") as read_file:
     data = json.load(read_file)
@@ -61,6 +52,6 @@ def binarize_image(image_path=None, image=None, threshold_value=None, max_value=
 
 ############################################
 # test the function above
-#image_path = 'demodata\demo_Image.jpg'
-#binary_image = binarize_image(image_path=image_path)
-#cv2.imwrite('demodata\demo_Image_binary.jpg', binary_image)
+image_path = 'demodata\demo_Image.jpg'
+binary_image = binarize_image(image_path=image_path)
+cv2.imwrite('demodata\demo_Image_binary.jpg', binary_image)
