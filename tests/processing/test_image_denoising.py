@@ -32,11 +32,12 @@ class FijiPyTestImageDenoising(unittest.TestCase):
         """ Test the gaussian_filter function. """
         image = np.random.randint(0, 255, (100, 100, 3)).astype(np.uint8)
         sigma = 1.0
-        denoised_image = self.image_denoising_module.gaussian_filter(image, sigma)
+        kernel_size = (3,3)
+        denoised_image = self.image_denoising_module.gaussian_filter(image, kernel_size, sigma)
         self.assertEqual(denoised_image.shape, image.shape)
 
     def test_denoise_image(self):
         """ Test the denoise_image function. """
         image = np.random.randint(0, 255, (100, 100, 3)).astype(np.uint8)
-        denoised_image = self.image_denoising_module.denoise_image(image, algorithm='median', kernel_size=3)
+        denoised_image = self.image_denoising_module.denoise_image(image, algorithm='median')
         self.assertEqual(denoised_image.shape, image.shape)
