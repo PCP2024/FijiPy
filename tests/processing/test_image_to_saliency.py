@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from image_to_saliency import generate_per_channel_saliency
+from processing.image_to_saliency import generate_per_channel_saliency
 
 class TestGeneratePerChannelSaliency(unittest.TestCase):
     def test_generate_per_channel_saliency(self):
