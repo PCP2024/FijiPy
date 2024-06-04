@@ -59,7 +59,7 @@ def denoise_image(image, algorithm='median'):
     Args:
         image (ndarray): Name of image loaded with the loader module.
         algorithm (str): Denoising algorithm to use.
-        algorithm specific parameters are passed through the config file (e.g.: kernel_sie,sigma)
+        algorithm specific parameters are passed through the config file (e.g.: kernel_size,sigma)
 
     Returns:
         ndarray: Denoised image.
@@ -67,7 +67,7 @@ def denoise_image(image, algorithm='median'):
 
     # Apply the selected denoising algorithm
     if algorithm == 'median':
-        denoised_image = median_filter(image, data['kernel_size'])
+        denoised_image = median_filter(image, data['kernel_size_median'])
     elif algorithm == 'gaussian':
         denoised_image = gaussian_filter(image, data['kernel_size'], data['sigma'])
 

@@ -1,7 +1,7 @@
 from midiutil import MIDIFile
 import numpy as np
 
-def create_midi_from_arrays(edge_map, saliency_map, time_signature=(4, 4), tempo=150, output_file="image_score.mid"):
+def create_midi_from_arrays(edge_map, saliency_map, time_signature=(4, 4), tempo=150, output_file="demodata/image_score.mid"):
     # Mask saliency array to assign a velocity to each note
     # saliency must take values between 0 and 127 !!!!
     # must be the same shape as edge_map
