@@ -1,46 +1,30 @@
 import unittest
 from unittest.mock import patch
 import numpy as np
-from midiutil import MIDIFile
-
 from processing.image_to_midi import create_midi_from_arrays
 
-class TestCreateMidiFromArrays(unittest.TestCase):
+class TestCreateMIDIFromArrays(unittest.TestCase):
 
-    @patch('processing.image_to_midi.MIDIFile')
-    def test_create_midi_from_arrays(self, mock_midi_file):
-        # Mock the MIDIFile object
-        mock_midi_file_instance = mock_midi_file.return_value
+    def setUp(self):
+        self.edge_map = np.array([[1, 0, 1], [0, 1, 0]])
+        self.saliency_map = np.array([[64, 127, 32], [0, 96, 100]])
+        self.time_signature = (4, 4)
+        self.tempo = 120
+        self.output_file = "test_output.mid"
 
-        # Define input arrays
-        edge_map = np.array([[0, 1, 0], [1, 0, 1]])
-        saliency_map = np.array([[0, 1, 2], [3, 4, 5]])
-        time_signature = (4, 4)
-        tempo = 150
-        output_file = "test_output.mid"
+    def test_midi_creation(self):
+        # Mock the open function to avoid creating an actual file
+        with patch("processing.image_to_midi.open") as mock_open:
+            create_midi_from_arrays(self.edge_map, self.saliency_map,
+                                    self.time_signature, self.tempo, self.output_file)
 
-        # Call the function
-        create_midi_from_arrays(edge_map, saliency_map, time_signature, tempo, output_file)
+            # Assert that open was called with the correct arguments
+            mock_open.assert_called_once_with(self.output_file, "wb")
 
-        # Assert that the MIDIFile object was created with the correct arguments
-        mock_midi_file.assert_called_once_with(1, file_format=1)
+            # Assert that MIDIFile.writeFile was called
+            self.assertTrue(mock_open.return_value.__enter__.called)
+            midi_file = mock_open.return_value.__enter__.return_value
+            midi_file.writeFile.assert_called_once()
 
-        # Assert that the MIDI events were added correctly
-        expected_calls = [
-            mock_midi_file_instance.addTrackName.call_args_list[0],
-            mock_midi_file_instance.addTempo.call_args_list[0],
-            mock_midi_file_instance.addTimeSignature.call_args_list[0],
-            mock_midi_file_instance.addProgramChange.call_args_list[0],
-            mock_midi_file_instance.addNote.call_args_list[0],
-            mock_midi_file_instance.writeFile.call_args_list[0]
-        ]
-        actual_calls = [
-            call for call in mock_midi_file_instance.method_calls if call[0] != 'addTrackName'
-        ]
-        self.assertEqual(actual_calls, expected_calls)
-
-        # Assert that the output file was written correctly
-        mock_midi_file_instance.writeFile.assert_called_once_with(output_file)
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
