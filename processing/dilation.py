@@ -9,7 +9,7 @@ with open("data_file.json", "r") as read_file:
     data = json.load(read_file)
 
 ############################################
-def dilate_image(image, kernel_size=None, iterations=None):
+def dilate_image(data: dict,image):
     """
     Dilate an image using a structuring element of the specified size.
 
@@ -23,10 +23,9 @@ def dilate_image(image, kernel_size=None, iterations=None):
     """
     if isinstance(image, str):
         image = cv2.imread(image)
-    if kernel_size is None:
-        kernel_size = data['structuring_element_size']
-    if iterations is None:
-        iterations = data['dilation_iterations']
+    
+    kernel_size = data['structuring_element_size']
+    iterations = data['dilation_iterations']
 
     structuring_element_type = data['structuring_element_type']
     structuring_element = cv2.getStructuringElement(STRUCTURING_ELEMENT_TYPE_MAP[structuring_element_type], kernel_size)
@@ -34,7 +33,4 @@ def dilate_image(image, kernel_size=None, iterations=None):
     return dilated_image
 
 ############################################
-# test the function above
-#image_path = 'demodata\demo_Image.jpg'
-#dilated_image = dilate_image(image_path, data['structuring_element_size'])
-#cv2.imwrite('demodata\demo_Image_dilated.jpg', dilated_image)
+
