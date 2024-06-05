@@ -32,8 +32,9 @@ def binarize_image(data: dict,image):
     if isinstance(image, str):
         image = cv2.imread(image)
 
-    # Convert the image to grayscale
-    grayscale_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    # Convert the image to grayscale if it is not already
+    if len(image.shape) > 2:
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     # Load hyperparameters from data json file
     threshold_value = data['threshold_value']
@@ -42,7 +43,7 @@ def binarize_image(data: dict,image):
     threshold_type = THRESHOLD_TYPE_MAP[threshold_type_str]
     
     # Apply Otsu thresholding
-    _, binary_image = cv2.threshold(grayscale_image, threshold_value, max_value, threshold_type)
+    _, binary_image = cv2.threshold(image, threshold_value, max_value, threshold_type)
 
     return binary_image
 

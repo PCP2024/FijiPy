@@ -125,11 +125,12 @@ def main():
         proc_img = dilation.dilate_image(config_data, args.input_image_path,)
         image_saving.save_image(args.output_path,proc_img)
     elif args.convert == 'all': # run all functions
-        print('not ready yet')
+        print('--full processing---')
         proc_img = binarization.binarize_image(config_data, args.input_image_path,) 
         proc_img = edge_detection.detect_edges(config_data, proc_img)
-        proc_img = image_denoising.denoise_image(config_data, proc_img)
-        proc_img = dilation.dialate_image(config_data, proc_img)
+        # proc_img = image_denoising.denoise_image(config_data, proc_img)
+        proc_img = dilation.dilate_image(config_data, proc_img)
+        image_saving.save_image(args.output_path,proc_img)
     else:
         print('Invalid conversion type.')
 
