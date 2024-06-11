@@ -14,3 +14,9 @@ Tracking changes in FijiPy.
 - Command Line Interface
 - Add packages for saliency map in requirements.txt
 
+
+## [0.0.3] - 2024-06-11
+
+### Added 
+- Add docker file
+
