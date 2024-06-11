@@ -1,10 +1,11 @@
 import json
 import os
+import cv2
 
 with open("data_file.json", "r") as read_file:
     data = json.load(read_file)
 
-def crop_image(image, crop_width, crop_height, crop_x=0, crop_y=0):
+def crop_image(data: dict, image):
         """
         Crop image into a desired size.
 
@@ -18,6 +19,16 @@ def crop_image(image, crop_width, crop_height, crop_x=0, crop_y=0):
         Returns:
             ndarray: Cropped image.
         """
+        # either load the image from the path or use the image array
+        if isinstance(image, str):
+            image = cv2.imread(image)
+
+        # Load hyperparameters from data json file
+        crop_width = data['crop_width']
+        crop_height = data['crop_height']
+        crop_x = data['crop_x']
+        crop_y = data['crop_y']
+
         if image.shape[0] < crop_height or image.shape[1] < crop_width:
             raise ValueError("The crop region is larger than the image.")
         if image.shape[0] < crop_height + crop_y or image.shape[1] < crop_width + crop_x:

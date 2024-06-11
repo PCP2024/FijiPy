@@ -2,9 +2,10 @@ import numpy as np
 import scipy
 from matplotlib import colors
 from configuration import config
+import cv2
 
 
-def generate_per_channel_saliency(image: np.ndarray, patch_size: int = 15) -> np.ndarray:
+def generate_per_channel_saliency(data: dict, image: np.ndarray) -> np.ndarray:
     """
         Generates normalized saliency map per channel of an input image
 
@@ -23,6 +24,12 @@ def generate_per_channel_saliency(image: np.ndarray, patch_size: int = 15) -> np
             and 1 for black and white containing normalized saliency values
 
     """
+    if isinstance(image, str):
+        image = cv2.imread(image)
+
+    # import hyperparameters from data json file
+    patch_size = data['patch_size']
+
     hsv_image = colors.rgb_to_hsv(image)
     saliency_maps = np.zeros(
         (hsv_image.shape[0] - patch_size + 1, hsv_image.shape[1] - patch_size + 1, hsv_image.shape[-1]))
