@@ -1,1 +1,5 @@
-{"sigma": 0, "kernel_size": [5, 5], "key1": "value1", "key2": "value2"}
+{"kernel_size": 3, "sigma": 1, 
+"canny_lower_threshold": 100, "canny_upper_threshold": 120, 
+"threshold_type": "THRESH_BINARY_OTSU", "max_value": 255, "threshold_value": 50, 
+"structuring_element_type": "MORPH_RECT", "structuring_element_size": [3,3], "dilation_iterations": 2
+}

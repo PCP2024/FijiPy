@@ -1,11 +1,8 @@
 import argparse
 import json
 from configuration import write_config
-from processing import binarization 
-from processing import edge_detection
-from processing import image_denoising
-from processing import dilation
-
+from processing import binarization, edge_detection, image_denoising, dilation
+from dataio import image_saving, image_loader
 # to-do: 
 # 1. I tried to add --config argument to specify the configuration file, but it did not work. 
 # 2. Uncomment lines to run the functions. 
@@ -17,14 +14,6 @@ def main():
         description='Convert image to song.', \
         epilog='By PCP 2024 FijiPy')
     
-    # to-do 1
-    #parser.add_argument('--config', type=str, help='Path to the configuration file.', default='data_file.json')    
-    #with open(parser.parse_args().config, "r") as read_file:
-    #    config_data = json.load(read_file)
-
-    config_file = 'data_file.json'
-    with open(config_file, "r") as read_file:
-        config_data = json.load(read_file)
     
     # arguments
     parser.add_argument('input_image_path', \
@@ -36,6 +25,19 @@ def main():
     parser.add_argument('output_path', \
                         type=str, \
                         help='Path to the output file (either image or audio).')
+    # to-do 1
+    parser.add_argument('--config', type=str, help='Path to the configuration file.', default='data_file.json')
+    args, unknown = parser.parse_known_args()
+    if args.config is not None:
+        config_file = args.config
+        with open(config_file, "r") as read_file:
+            config_data = json.load(read_file)
+    else:
+        config_file = 'data_file.json'
+        with open(config_file, "r") as read_file:
+            config_data = json.load(read_file)
+    
+    
     
     # optional arguments
     parser.add_argument('--version', \
@@ -101,26 +103,34 @@ def main():
                                         key, \
                                         value)
 
+    with open(config_file, "r") as read_file:
+            config_data = json.load(read_file)
+
     # to-do 2
     # run specified fuction
     if args.convert == 'binarization':
         print('--binarizing image---')
-        #binarization.binarize_image(args.config)
+        proc_img = binarization.binarize_image(config_data, args.input_image_path,)
+        image_saving.save_image(args.output_path,proc_img)
     elif args.convert == 'edge_detection':
         print('--detecting edge---')
-        #edge_detection.detect_edges(args.config)
+        proc_img = edge_detection.detect_edges(config_data, args.input_image_path,)
+        image_saving.save_image(args.output_path,proc_img)
     elif args.convert == 'denoising':
         print('--denoising image---')
-        #image_denoising.denoise_image(args.config)
-    elif args.convert == 'dialation':
+        proc_img = image_denoising.denoise_image(config_data, args.input_image_path,)
+        image_saving.save_image(args.output_path,proc_img)
+    elif args.convert == 'dilation':
         print('--dialating image---')
-        #dilation.dialate_image(args.config)
+        proc_img = dilation.dilate_image(config_data, args.input_image_path,)
+        image_saving.save_image(args.output_path,proc_img)
     elif args.convert == 'all': # run all functions
-        print('not ready yet')
-        #binarization.binarize_image(args.config) 
-        #preprocessing.detect_edges(args.config)
-        #preprocessing.denoise_image(args.config)
-        #preprocessing.dialate_image(args.config)
+        print('--full processing---')
+        proc_img = binarization.binarize_image(config_data, args.input_image_path,) 
+        proc_img = edge_detection.detect_edges(config_data, proc_img)
+        # proc_img = image_denoising.denoise_image(config_data, proc_img)
+        proc_img = dilation.dilate_image(config_data, proc_img)
+        image_saving.save_image(args.output_path,proc_img)
     else:
         print('Invalid conversion type.')
 
