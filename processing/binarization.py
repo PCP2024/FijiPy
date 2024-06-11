@@ -1,25 +1,16 @@
 import cv2
 import json
-from configuration.config_utils import THRESHOLD_TYPE_MAP
-# # TODO: Move this to a configuration file and figure out how to load it.
-# THRESHOLD_TYPE_MAP = {
-#     "THRESH_BINARY": cv2.THRESH_BINARY,
-#     "THRESH_BINARY_INV": cv2.THRESH_BINARY_INV,
-#     "THRESH_TRUNC": cv2.THRESH_TRUNC,
-#     "THRESH_TOZERO": cv2.THRESH_TOZERO,
-#     "THRESH_TOZERO_INV": cv2.THRESH_TOZERO_INV,
-#     "THRESH_MASK": cv2.THRESH_MASK,
-#     "THRESH_OTSU": cv2.THRESH_OTSU,
-#     "THRESH_TRIANGLE": cv2.THRESH_TRIANGLE,
-#     "THRESH_BINARY_OTSU": cv2.THRESH_BINARY + cv2.THRESH_OTSU  # Otsu's thresholding with binary thresholding
-# }
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+from configuration.config_utils import THRESHOLD_TYPE_MAP
 
 with open("data_file.json", "r") as read_file:
     data = json.load(read_file)
 
 ############################################
-def binarize_image(image_path=None, image=None, threshold_value=None, max_value=None, threshold_type=None):
+def binarize_image(data: dict,image):
     """
     Binarize an image using a thresholding method from cv2.
     thresholding hyperparameters can be adjusted in the data json file.
@@ -38,29 +29,22 @@ def binarize_image(image_path=None, image=None, threshold_value=None, max_value=
     Returns:
         ndarray: Binarized image.
     """
-    if image_path is not None:
-        # Load the image
-        image = cv2.imread(image_path)
+    if isinstance(image, str):
+        image = cv2.imread(image)
 
-    # Convert the image to grayscale
-    grayscale_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    # Convert the image to grayscale if it is not already
+    if len(image.shape) > 2:
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    # Load hyperparameters from data json file if not specified
-    if threshold_value is None:
-        threshold_value = data['threshold_value']
-    if max_value is None:
-        max_value = data['max_value']
-    if threshold_type is None:
-        threshold_type_str = data['threshold_type']
-        threshold_type = THRESHOLD_TYPE_MAP[threshold_type_str]
+    # Load hyperparameters from data json file
+    threshold_value = data['threshold_value']
+    max_value = data['max_value']
+    threshold_type_str = data['threshold_type']
+    threshold_type = THRESHOLD_TYPE_MAP[threshold_type_str]
     
     # Apply Otsu thresholding
-    _, binary_image = cv2.threshold(grayscale_image, threshold_value, max_value, threshold_type)
+    _, binary_image = cv2.threshold(image, threshold_value, max_value, threshold_type)
 
     return binary_image
 
 ############################################
-# test the function above
-#image_path = 'demodata\demo_Image.jpg'
-#binary_image = binarize_image(image_path=image_path)
-#cv2.imwrite('demodata\demo_Image_binary.jpg', binary_image)
