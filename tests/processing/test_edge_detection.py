@@ -8,17 +8,17 @@ class EdgeDetectionTestCase(unittest.TestCase):
         # Load the test image
         self.image_path = 'demodata/demo_Image_dilated.jpg'
         self.image = cv2.imread(self.image_path)
+        self.data = {'canny_lower_threshold': 100, 'canny_upper_threshold': 200}
 
-    def test_output_not_none(self):
-        # Call the edge detection function
-        edges = detect_edges(image=self.image)
-
-        # Assert that the output is not None
-        self.assertIsNotNone(edges)
+    def tearDown(self):
+        """ Tear down test variable object attributes """
+        delattr(self, "image_path")
+        delattr(self, "image")
+        delattr(self, "data")
 
     def test_output_dtype(self):
         # Call the edge detection function
-        edges = detect_edges(image=self.image)
+        edges = detect_edges(data=self.data, image=self.image)
 
         # Assert that the output is a binary image
         self.assertEqual(edges.dtype, np.uint8)
@@ -26,14 +26,14 @@ class EdgeDetectionTestCase(unittest.TestCase):
 
     def test_output_shape(self):
         # Call the edge detection function
-        edges = detect_edges(image=self.image)
+        edges = detect_edges(data=self.data, image=self.image)
 
         # Assert that the output has the same shape as the input image
         self.assertEqual(edges.shape, self.image.shape[:2])
 
     def test_output_has_edges(self):
         # Call the edge detection function
-        edges = detect_edges(image=self.image)
+        edges = detect_edges(data=self.data, image=self.image)
 
         # Assert that the output image has edges
         self.assertGreater(np.sum(edges), 0)

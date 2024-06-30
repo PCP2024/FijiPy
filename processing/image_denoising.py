@@ -52,7 +52,7 @@ def gaussian_filter(image, kernel_size, sigma):
     return denoised_image
 
 ############################################
-def denoise_image(image, algorithm='median'):
+def denoise_image(image, data, algorithm='median'):
     """
     Denoise an image using the specified algorithm.
 
