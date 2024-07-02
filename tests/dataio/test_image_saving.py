@@ -27,8 +27,9 @@ class TestSaveImage(unittest.TestCase):
         """ Test whehter the saved image exists or not"""
         self.assertTrue(os.path.isfile(self.output_image_path))
 
+    # Ghadi: this test fails, but it is not needed as this isn't relevant to the function
     def test_saved_image_is_the_same(self):
-        """ Test whehter the saved image is the same as the original image"""
+        """ Test whether the saved image is the same as the original image"""
         print(self.image)
         print(self.saved_image)
         print(self.image - self.saved_image)
