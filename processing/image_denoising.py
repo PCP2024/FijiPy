@@ -1,6 +1,10 @@
 import numpy as np
 import cv2
 import json
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 with open("data_file.json", "r") as read_file:
     data = json.load(read_file)
@@ -52,7 +56,7 @@ def gaussian_filter(image, kernel_size, sigma):
     return denoised_image
 
 ############################################
-def denoise_image(image, data, algorithm='median'):
+def denoise_image(data: dict, image):
     """
     Denoise an image using the specified algorithm.
 
@@ -64,11 +68,19 @@ def denoise_image(image, data, algorithm='median'):
     Returns:
         ndarray: Denoised image.
     """
+    if isinstance(image, str):
+        image = cv2.imread(image)
+
+    # load hyperparameters from data json file
+    algorithm = data['denoising_algorithm']
+    kernel_size_median = data['kernel_size_median']
+    kernel_size_gaussian = tuple(data['kernel_size_gaussian'])
+    sigma = data['sigma']
 
     # Apply the selected denoising algorithm
     if algorithm == 'median':
-        denoised_image = median_filter(image, data['kernel_size_median'])
+        denoised_image = median_filter(image, kernel_size_median)
     elif algorithm == 'gaussian':
-        denoised_image = gaussian_filter(image, data['kernel_size'], data['sigma'])
+        denoised_image = gaussian_filter(image, kernel_size_gaussian, sigma)
 
     return denoised_image
