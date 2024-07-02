@@ -6,16 +6,20 @@ import numpy as np
 class FijiPyTestImageDenoising(unittest.TestCase):
     """ Test the image denoising functionality. """
     def setUp(self):
-        self.image_denoising_module = image_denoising
-        self.cv2_module = cv2
-        self.numpy_module = np
+        self.image = np.random.randint(0, 255, (100, 100, 3)).astype(np.uint8)
+        self.data = {'sigma': 1.0, 'kernel_size': (3, 3), 'kernel_size_median': 3}
+
+    def tearDown(self):
+        """ Tear down test variable object attributes """
+        delattr(self, "image")
+        delattr(self, "data")
 
     def test_import_modules(self):
         """ Test that required modules can be imported. """
         modules = [
-            (self.image_denoising_module, "image_denoising"),
-            (self.cv2_module, "cv2"),
-            (self.numpy_module, "numpy")
+            (image_denoising, "image_denoising"),
+            (cv2, "cv2"),
+            (np, "numpy")
         ]
         for module, module_name in modules:
             with self.subTest(module=module_name):
@@ -23,20 +27,17 @@ class FijiPyTestImageDenoising(unittest.TestCase):
 
     def test_median_filter(self):
         """ Test the median_filter function. """
-        image = np.random.randint(0, 255, (100, 100, 3)).astype(np.uint8)
-        kernel_size = 3
-        denoised_image = self.image_denoising_module.median_filter(image, kernel_size)
-        self.assertEqual(denoised_image.shape, image.shape)
+
+        denoised_image = image_denoising.median_filter(self.image, self.data['kernel_size_median'])
+        self.assertEqual(denoised_image.shape, self.image.shape)
 
     def test_gaussian_filter(self):
         """ Test the gaussian_filter function. """
-        image = np.random.randint(0, 255, (100, 100, 3)).astype(np.uint8)
-        sigma = 1.0
-        denoised_image = self.image_denoising_module.gaussian_filter(image, sigma)
-        self.assertEqual(denoised_image.shape, image.shape)
+        denoised_image = image_denoising.gaussian_filter(self.image, self.data['kernel_size'], self.data['sigma'])
+        self.assertEqual(denoised_image.shape, self.image.shape)
 
+    # Ghadi: you need a mocker of the methods used inside "image_denoising.denoise_image"
     def test_denoise_image(self):
         """ Test the denoise_image function. """
-        image = np.random.randint(0, 255, (100, 100, 3)).astype(np.uint8)
-        denoised_image = self.image_denoising_module.denoise_image(image, algorithm='median', kernel_size=3)
-        self.assertEqual(denoised_image.shape, image.shape)
+        denoised_image = image_denoising.denoise_image(self.image, data=self.data, algorithm='median')
+        self.assertEqual(denoised_image.shape, self.image.shape)

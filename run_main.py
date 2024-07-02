@@ -1,11 +1,12 @@
 import argparse
 import json
 from configuration import write_config
-from processing import binarization 
-from processing import edge_detection
-from processing import image_denoising
-from processing import dilation
-
+from processing import (binarization, 
+                        edge_detection, image_denoising, 
+                        dilation, image_cropping,
+                        image_to_saliency, preprocess_compress,
+                        image_to_midi)
+from dataio import image_saving, image_loader
 # to-do: 
 # 1. I tried to add --config argument to specify the configuration file, but it did not work. 
 # 2. Uncomment lines to run the functions. 
@@ -17,14 +18,6 @@ def main():
         description='Convert image to song.', \
         epilog='By PCP 2024 FijiPy')
     
-    # to-do 1
-    #parser.add_argument('--config', type=str, help='Path to the configuration file.', default='data_file.json')    
-    #with open(parser.parse_args().config, "r") as read_file:
-    #    config_data = json.load(read_file)
-
-    config_file = 'data_file.json'
-    with open(config_file, "r") as read_file:
-        config_data = json.load(read_file)
     
     # arguments
     parser.add_argument('input_image_path', \
@@ -36,6 +29,19 @@ def main():
     parser.add_argument('output_path', \
                         type=str, \
                         help='Path to the output file (either image or audio).')
+    # to-do 1
+    parser.add_argument('--config', type=str, help='Path to the configuration file.', default='data_file.json')
+    args, unknown = parser.parse_known_args()
+    if args.config is not None:
+        config_file = args.config
+        with open(config_file, "r") as read_file:
+            config_data = json.load(read_file)
+    else:
+        config_file = 'data_file.json'
+        with open(config_file, "r") as read_file:
+            config_data = json.load(read_file)
+    
+    
     
     # optional arguments
     parser.add_argument('--version', \
@@ -43,10 +49,18 @@ def main():
                         help='Show version.', \
                         default='False')
     # denoising
-    parser.add_argument('--kernel_size', \
+    parser.add_argument('--denoising_algorithm', \
+                        type=str, \
+                        help='For denoising. Denoising algorithm. default: median', \
+                        default=config_data['denoising_algorithm'])
+    parser.add_argument('--kernel_size_gaussian', \
+                        type=list, \
+                        help='For denoising. Kernel size of Gaussian filter. default: [5,5]', \
+                        default=config_data['kernel_size_gaussian'])
+    parser.add_argument('--kernel_size_median', \
                         type=int, \
-                        help='For denoising. Kernel size. default: 3', \
-                        default=config_data['kernel_size'])
+                        help='For denoising. Kernel size of median filter (int). default: 3', \
+                        default=config_data['kernel_size_median'])
     parser.add_argument('--sigma', \
                         type=float, \
                         help='For denoising. Sigma. default: 1', \
@@ -86,6 +100,45 @@ def main():
                         type=int, \
                         help='For dilation. Number of iterations. default: 2', \
                         default=config_data['dilation_iterations'])
+    # image crop
+    parser.add_argument('--crop_width', \
+                        type=int, \
+                        help='For cropping. Width of the crop region. default: 100', \
+                        default=config_data['crop_width'])
+    parser.add_argument('--crop_height', \
+                        type=int, \
+                        help='For cropping. Height of the crop region. default: 100', \
+                        default=config_data['crop_height'])
+    parser.add_argument('--crop_x', \
+                        type=int, \
+                        help='For cropping. X-coordinate of the top-left corner of the crop region. default: 0', \
+                        default=config_data['crop_x'])
+    parser.add_argument('--crop_y', \
+                        type=int, \
+                        help='For cropping. Y-coordinate of the top-left corner of the crop region. default: 0', \
+                        default=config_data['crop_y'])
+    # image 2 saliency
+    parser.add_argument('--patch_size', \
+                        type=int, \
+                        help='For saliency. Patch size. default: 5', \
+                        default=config_data['patch_size'])
+    # preprocess compress
+    
+    # >> at present no additional arguments are needed for this function
+
+    # image to midi
+    parser.add_argument('--time_signature', \
+                        type=list, \
+                        help='For midi. Time signature. default: [4,4]', \
+                        default=config_data['time_signature'])
+    parser.add_argument('--tempo', \
+                        type=int, \
+                        help='For midi. Tempo. default: 120', \
+                        default=config_data['tempo'])
+    parser.add_argument('--output_file', \
+                        type=str, \
+                        help='For midi. Output file. default: output.mid', \
+                        default=config_data['output_file'])
 
     args = parser.parse_args()
 
@@ -101,26 +154,56 @@ def main():
                                         key, \
                                         value)
 
+    with open(config_file, "r") as read_file:
+            config_data = json.load(read_file)
+
     # to-do 2
     # run specified fuction
     if args.convert == 'binarization':
         print('--binarizing image---')
-        #binarization.binarize_image(args.config)
+        proc_img = binarization.binarize_image(config_data, args.input_image_path,)
+        image_saving.save_image(args.output_path,proc_img)
     elif args.convert == 'edge_detection':
         print('--detecting edge---')
-        #edge_detection.detect_edges(args.config)
+        proc_img = edge_detection.detect_edges(config_data, args.input_image_path,)
+        image_saving.save_image(args.output_path,proc_img)
     elif args.convert == 'denoising':
         print('--denoising image---')
-        #image_denoising.denoise_image(args.config)
-    elif args.convert == 'dialation':
+        proc_img = image_denoising.denoise_image(config_data, args.input_image_path,)
+        image_saving.save_image(args.output_path,proc_img)
+    elif args.convert == 'dilation':
         print('--dialating image---')
-        #dilation.dialate_image(args.config)
+        proc_img = dilation.dilate_image(config_data, args.input_image_path,)
+        image_saving.save_image(args.output_path,proc_img)
+    elif args.convert == 'crop':
+        print('--cropping image---')
+        proc_img = image_cropping.crop_image(config_data, args.input_image_path,)
+        image_saving.save_image(args.output_path,proc_img)
+    elif args.convert == 'saliency':
+        print('--generating saliency map---')
+        proc_img = image_to_saliency.generate_per_channel_saliency(config_data, args.input_image_path,)
+        proc_img = image_to_saliency.merge_saliency_maps(proc_img)
+        image_saving.save_image(args.output_path,proc_img)
+    elif args.convert == 'preprocess_compress':
+        print('--compressing image---')
+        proc_img = preprocess_compress.compress_image(args.input_image_path,)
+        image_saving.save_image(args.output_path,proc_img)
+    elif args.convert == 'image_2_midi':
+        print('--converting image to midi---')
+        binarized_img = binarization.binarize_image(config_data, args.input_image_path,)
+        edge_map = edge_detection.detect_edges(config_data, binarized_img)
+        saliency_map = image_to_saliency.generate_per_channel_saliency(config_data, args.input_image_path,)
+        saliency_map = image_to_saliency.merge_saliency_maps(saliency_map)
+        image_to_midi.create_midi_from_arrays(config_data, edge_map, saliency_map)
+
+
     elif args.convert == 'all': # run all functions
-        print('not ready yet')
-        #binarization.binarize_image(args.config) 
-        #preprocessing.detect_edges(args.config)
-        #preprocessing.denoise_image(args.config)
-        #preprocessing.dialate_image(args.config)
+        print('--full processing---')
+        proc_img = binarization.binarize_image(config_data, args.input_image_path,) 
+        proc_img = edge_detection.detect_edges(config_data, proc_img)
+        # proc_img = image_denoising.denoise_image(config_data, proc_img)
+        proc_img = dilation.dilate_image(config_data, proc_img)
+        image_saving.save_image(args.output_path,proc_img)
     else:
         print('Invalid conversion type.')
 

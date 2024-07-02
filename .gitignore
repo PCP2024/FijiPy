@@ -1,5 +1,10 @@
 # OS generated files #
 ######################
+<<<<<<< Updated upstream
+*.ini
+=======
 *.ini
 *.pyc
 settings.json
+sysargs.py
+>>>>>>> Stashed changes

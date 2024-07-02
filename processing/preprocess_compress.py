@@ -1,6 +1,6 @@
-#from dataio import image_loader
 import numpy as np
 from skimage.transform import resize
+import cv2
 
 def preprocess_compress_image(image):
     """
@@ -14,6 +14,9 @@ def preprocess_compress_image(image):
     Returns:
         ndarray: Compressed image.
     """
+    if isinstance(image, str):
+        image = cv2.imread(image)
+
     # Check if axis 0 length is less than or equal to 128
     if image.shape[0] <= 128:
         return image  # No need to compress, return original image
