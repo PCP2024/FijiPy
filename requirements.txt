@@ -2,6 +2,9 @@ numpy==1.26.4
 opencv-python==4.9.0.80
 scipy~=1.13.0
 matplotlib~=3.8.4
+scikit-image~=0.24.0
+pygame~=2.6.0
+midiutil~=1.2.1
 
 # check and add these with versions
 # midiutil
