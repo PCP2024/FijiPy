@@ -1,3 +1,16 @@
+# Changlog
 Tracking changes in FijiPy.
 
 #######################
+
+## [0.0.1]
+- Initial version with functions and tests.
+
+
+
+## [0.0.2] - 2024-05-28
+
+### Added 
+- Command Line Interface
+- Add packages for saliency map in requirements.txt
+
