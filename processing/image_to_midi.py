@@ -1,7 +1,12 @@
 from midiutil import MIDIFile
 import numpy as np
 
-def create_midi_from_arrays(edge_map, saliency_map, time_signature=(4, 4), tempo=150, output_file="demodata/image_score.mid"):
+def create_midi_from_arrays(data: dict, edge_map, saliency_map):
+    # import hyperparameters from data json file
+    time_signature = data['time_signature']
+    tempo = data['tempo']
+    output_file = data['output_file']
+
     # Mask saliency array to assign a velocity to each note
     # saliency must take values between 0 and 127 !!!!
     # must be the same shape as edge_map
@@ -39,9 +44,10 @@ def create_midi_from_arrays(edge_map, saliency_map, time_signature=(4, 4), tempo
         midi_file.writeFile(f)
 
 ############################
-probability_edges = 0.05
-probability_saliency = 0.05
-edges = np.random.choice([0, 1], size=(50, 120), p=[1 - probability_edges, probability_edges])
-saliency = np.random.choice([0, 1, 2, 3, 4, 5, 6, 7], size=(50, 120), p=[0.3, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])
+# currently works for following call
+# probability_edges = 0.05
+# probability_saliency = 0.05
+# edges = np.random.choice([0, 1], size=(50, 120), p=[1 - probability_edges, probability_edges])
+# saliency = np.random.choice([0, 1, 2, 3, 4, 5, 6, 7], size=(50, 120), p=[0.3, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])
 
-create_midi_from_arrays(edges, saliency)
+# create_midi_from_arrays(edges, saliency)
