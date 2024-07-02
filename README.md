@@ -16,3 +16,9 @@ Contents:
 - demodata: demo image, and results after each processing step 
 - tests: tests for each function
 - configuration: contains files with arguments for each function. If default arguments are not used, this file gets updated
+
+Usage: 
+
+docker build -t fijipy:latest . # Create a docker image from Docker file. (Do this at the top directory.)
+docker run --rm fijipy:latest  input_path convertion_type output_path --optional=xxx 
+(e.g. docker run --rm  --name your_container fijipy:latest  ./demodata/demo_Image.jpg image_2_midi demo_test.mid --threshold_type="THRESH_BINARY_INV")
