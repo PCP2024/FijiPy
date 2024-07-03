@@ -20,5 +20,11 @@ Contents:
 Usage: 
 
 docker build -t fijipy:latest . # Create a docker image from Docker file. (Do this at the top directory.)
-docker run --rm fijipy:latest  input_path convertion_type output_path --optional=xxx 
-(e.g. docker run --rm  --name your_container fijipy:latest  ./demodata/demo_Image.jpg image_2_midi demo_test.mid --threshold_type="THRESH_BINARY_INV")
+docker run fijipy:latest  input_path convertion_type output_path --optional=xxx 
+docker cp Container:"/app/output_path" "Destination in your local"
+
+e.g. 
+docker run  --name test_fijipy fijipy:latest ./demodata/demo_Image.jpg crop demo_test.jpg
+docker cp test_fijipy:"/app/output_path" "./demo_test.jpg"
+
+Once you done, you may want to delete the container. 
