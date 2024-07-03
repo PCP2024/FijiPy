@@ -17,7 +17,21 @@ For an example of how to use it, run run_main.py
 - tests: tests for each function
 - configuration: contains files with arguments for each function. If default arguments are not used, this file gets updated
 
-## Docker
+
+## Usage
+### Option 1: in your python environment    
+```console
+pip install -r requirements.txt # install all packages
+python run_main.py input_path convertion_type output_path --optional=xxx 
+```
+
+e.g.
+```console
+pip install -r requirements.txt # install all packages
+python run_main.py ./demodata/demo_Image.jpg crop demo_test.jpg
+```
+
+### Option 2: Docker
 ```console
 docker build -t fijipy:latest . # Create a docker image from Docker file. (Do this at the top directory.)
 docker run fijipy:latest  input_path convertion_type output_path --optional=xxx 
