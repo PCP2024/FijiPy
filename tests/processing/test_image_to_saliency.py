@@ -8,7 +8,7 @@ class TestGeneratePerChannelSaliency(unittest.TestCase):
         image = np.random.rand(100, 100, 3)
 
         # Call the function
-        saliency_maps = generate_per_channel_saliency(image)
+        saliency_maps = generate_per_channel_saliency(data={'patch_size': 15}, image=image)
 
         # Check the shape of the output
         self.assertEqual(saliency_maps.shape, (86, 86, 3))

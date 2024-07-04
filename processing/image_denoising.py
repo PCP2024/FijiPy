@@ -73,14 +73,14 @@ def denoise_image(data: dict, image):
 
     # load hyperparameters from data json file
     algorithm = data['denoising_algorithm']
-    kernel_size_median = data['kernel_size_median']
-    kernel_size_gaussian = tuple(data['kernel_size_gaussian'])
     sigma = data['sigma']
 
     # Apply the selected denoising algorithm
     if algorithm == 'median':
+        kernel_size_median = data['kernel_size_median']
         denoised_image = median_filter(image, kernel_size_median)
     elif algorithm == 'gaussian':
+        kernel_size_gaussian = tuple(data['kernel_size_gaussian'])
         denoised_image = gaussian_filter(image, kernel_size_gaussian, sigma)
 
     return denoised_image

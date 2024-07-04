@@ -6,6 +6,8 @@ from processing.dilation import dilate_image
 
 class DilationTestCase(unittest.TestCase):
     def setUp(self):
+        self.image_path = "demodata/demo_Image.jpg"
+        self.image = cv2.imread(self.image_path)
         # Load test data from JSON file
         with open("data_file.json", "r") as read_file:
             self.data = json.load(read_file)

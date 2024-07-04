@@ -1,7 +1,6 @@
 import numpy as np
 import scipy
 from matplotlib import colors
-from configuration import config
 import cv2
 
 
