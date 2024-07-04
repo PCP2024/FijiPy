@@ -4,5 +4,5 @@
 "structuring_element_type": "MORPH_RECT", "structuring_element_size": [3,3], "dilation_iterations": 2,
 "crop_width": 100, "crop_height": 100, "crop_x": 0, "crop_y": 0,
 "patch_size": 15,
-"time_signature": [4,4], "tempo": 150, "output_file": "demodata/image_score.mid"
+"time_signature": [4,4], "tempo": 150
 }
