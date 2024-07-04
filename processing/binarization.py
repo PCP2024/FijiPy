@@ -31,7 +31,7 @@ def binarize_image(data: dict,image):
     """
     if isinstance(image, str):
         image = cv2.imread(image)
-
+    #print("Shape of image into binarization: ", image.shape)
     # Convert the image to grayscale if it is not already
     if len(image.shape) > 2:
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -44,7 +44,7 @@ def binarize_image(data: dict,image):
     
     # Apply Otsu thresholding
     _, binary_image = cv2.threshold(image, threshold_value, max_value, threshold_type)
-
+    #print("Shape of binarized image: ", binary_image.shape)
     return binary_image
 
 ############################################

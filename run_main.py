@@ -7,6 +7,7 @@ from processing import (binarization,
                         image_to_saliency, preprocess_compress,
                         image_to_midi)
 from dataio import image_saving, image_loader
+import cv2
 # to-do: 
 # 1. I tried to add --config argument to specify the configuration file, but it did not work. 
 # 2. Uncomment lines to run the functions. 
@@ -135,10 +136,6 @@ def main():
                         type=int, \
                         help='For midi. Tempo. default: 120', \
                         default=config_data['tempo'])
-    parser.add_argument('--output_file', \
-                        type=str, \
-                        help='For midi. Output file. default: output.mid', \
-                        default=config_data['output_file'])
 
     args = parser.parse_args()
 
@@ -181,7 +178,11 @@ def main():
         image_saving.save_image(args.output_path,proc_img)
     elif args.convert == 'saliency':
         print('--generating saliency map---')
-        proc_img = image_to_saliency.generate_per_channel_saliency(config_data, args.input_image_path,)
+        print('Three channel saliency maps will additionally be saved in the same directory\n of the merged saliency map as "saliency map ch*.jpg" ')
+        proc_img, ch1, ch2, ch3 = image_to_saliency.generate_per_channel_saliency(config_data, args.input_image_path,)
+        cv2.imwrite('saliency map ch1.jpg', ch1)
+        cv2.imwrite('saliency map ch2.jpg', ch2)
+        cv2.imwrite('saliency map ch3.jpg', ch3)
         proc_img = image_to_saliency.merge_saliency_maps(proc_img)
         image_saving.save_image(args.output_path,proc_img)
     elif args.convert == 'preprocess_compress':
@@ -191,17 +192,22 @@ def main():
     elif args.convert == 'image_2_midi':
         print('--converting image to midi---')
         binarized_img = binarization.binarize_image(config_data, args.input_image_path,)
+        print('1/5 steps completed')
         edge_map = edge_detection.detect_edges(config_data, binarized_img)
-        saliency_map = image_to_saliency.generate_per_channel_saliency(config_data, args.input_image_path,)
+        print('2/5 steps completed')
+        saliency_map, _, _, _ = image_to_saliency.generate_per_channel_saliency(config_data, args.input_image_path,)
+        print('3/5 steps completed')
         saliency_map = image_to_saliency.merge_saliency_maps(saliency_map)
-        image_to_midi.create_midi_from_arrays(config_data, edge_map, saliency_map)
+        print('4/5 steps completed')
+        image_to_midi.create_midi_from_arrays(config_data, edge_map, saliency_map, args.output_path)
+        print('5/5 steps completed: MIDI file successfully generated.')
 
 
     elif args.convert == 'all': # run all functions
         print('--full processing---')
         proc_img = binarization.binarize_image(config_data, args.input_image_path,) 
         proc_img = edge_detection.detect_edges(config_data, proc_img)
-        # proc_img = image_denoising.denoise_image(config_data, proc_img)
+        # proc_img = image_denoising.denoise_image(config_data, proc_img)  why is this commented out?
         proc_img = dilation.dilate_image(config_data, proc_img)
         image_saving.save_image(args.output_path,proc_img)
     else:
