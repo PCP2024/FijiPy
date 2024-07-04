@@ -44,4 +44,10 @@ docker run --name test_fijipy fijipy:latest ./demodata/demo_Image.jpg crop demo_
 docker cp test_fijipy:"/app/demo_test.jpg" "./demo_test.jpg"
 ```
 
+
+```console
+docker restart test_fijipy # start your container 
+docker cp image.jpg test_fijipy:"/app/demodata/image.jpg" # copy your image.jpg to demodata in your container. 
+docker exec test_fijipy python run_main.py ./demodata/image.jpg image_2_midi demo_test.jpg # convert image to midi ()
+```
 Once you done, you may want to delete the container. 
