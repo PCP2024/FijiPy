@@ -6,8 +6,8 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-with open("data_file.json", "r") as read_file:
-    data = json.load(read_file)
+# with open("data_file.json", "r") as read_file:
+#     data = json.load(read_file)
 
 ############################################
 def median_filter(image, kernel_size):
