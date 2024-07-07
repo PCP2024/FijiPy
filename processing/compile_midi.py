@@ -1,7 +1,6 @@
 import subprocess
 from midi2audio import FluidSynth
 import pygame
-import pygame
 
 
 # def compile_midi_to_audio(input_midi, output_audio, soundfont):
