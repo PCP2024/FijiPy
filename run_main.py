@@ -138,6 +138,11 @@ def main():
                         type=str, \
                         help='location and name to save an updated version of the used config file. default: None', \
                         default=None)
+    # save intermediate images
+    parser.add_argument('--save_intermediate', \
+                        type=bool, \
+                        help="save intermediate images in output path if you use the option convert 'all'. default: False", \
+                        default=False)
 
     args = parser.parse_args()
 
@@ -191,7 +196,7 @@ def main():
         image_saving.save_image(args.output_path,proc_img)
     elif args.convert == 'preprocess_compress':
         print('--compressing image---')
-        proc_img = preprocess_compress.compress_image(args.input_image_path,)
+        proc_img = preprocess_compress.preprocess_compress_image(args.input_image_path,)
         image_saving.save_image(args.output_path,proc_img)
     elif args.convert == 'image_2_midi':
         print('--converting image to midi---')
@@ -209,11 +214,27 @@ def main():
 
     elif args.convert == 'all': # run all functions
         print('--full processing---')
-        proc_img = binarization.binarize_image(config_data, args.input_image_path,) 
-        proc_img = edge_detection.detect_edges(config_data, proc_img)
-        proc_img = image_denoising.denoise_image(config_data, proc_img) 
-        proc_img = dilation.dilate_image(config_data, proc_img)
-        image_saving.save_image(args.output_path,proc_img)
+        image = cv2.imread(args.input_image_path)
+        proc_img = preprocess_compress.preprocess_compress_image(image,)
+
+        print('--converting image to midi---')
+        binarized_img = binarization.binarize_image(config_data, proc_img)
+        print('1/5 steps completed')
+        edge_map = edge_detection.detect_edges(config_data, binarized_img)
+        print('2/5 steps completed')
+        saliency_map, _, _, _ = image_to_saliency.generate_per_channel_saliency(config_data, proc_img)
+        print('3/5 steps completed')
+        saliency_map = image_to_saliency.merge_saliency_maps(saliency_map)
+        print('4/5 steps completed')
+        image_to_midi.create_midi_from_arrays(config_data, edge_map, saliency_map, args.output_path)
+        print('5/5 steps completed: MIDI file successfully generated.')
+        if args.save_intermediate == True:
+            # remove the file name and save the intermediate images in the same directory
+            base_path = '/'.join(args.output_path.split('/')[:-1])  # Get the directory part of output_path
+            image_saving.save_image(base_path + '/compressed_img.jpg',proc_img)
+            image_saving.save_image(base_path + '/binarized_img.jpg',binarized_img)
+            image_saving.save_image(base_path +'/edge_map.jpg',edge_map)
+            image_saving.save_image(base_path +'/saliency_map.jpg',saliency_map)
     else:
         print('Invalid conversion type.')
 
