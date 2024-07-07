@@ -21,7 +21,7 @@ import pygame
 #     except FileNotFoundError as e:
 #         logging.error("File not found: %s", e.filename)
 
-def play_music(midi_filename):
+def play_music(midi_filename: str) -> None:
   '''Stream music_file in a blocking manner'''
   clock = pygame.time.Clock()
   pygame.mixer.music.load(midi_filename)

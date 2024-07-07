@@ -3,14 +3,16 @@ import cv2
 import json
 import os
 import sys
+from typing import Union
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # with open("data_file.json", "r") as read_file:
 #     data = json.load(read_file)
 
+
 ############################################
-def median_filter(image, kernel_size):
+def median_filter(image: np.ndarray, kernel_size: int) -> np.ndarray:
     """
     Apply median filtering to the input image.
 
@@ -24,7 +26,8 @@ def median_filter(image, kernel_size):
     denoised_image = cv2.medianBlur(image, kernel_size)
     return denoised_image
 
-def gaussian_filter(image, kernel_size, sigma):
+
+def gaussian_filter(image: np.ndarray, kernel_size: int, sigma: float) -> np.ndarray:
     """
     Apply Gaussian filtering to the input image.
 
@@ -55,13 +58,14 @@ def gaussian_filter(image, kernel_size, sigma):
 
     return denoised_image
 
+
 ############################################
-def denoise_image(data: dict, image):
+def denoise_image(data: dict, image: Union[str, np.ndarray]) -> np.ndarray:
     """
     Denoise an image using the specified algorithm.
 
     Args:
-        image (ndarray): Name of image loaded with the loader module.
+        image (ndarray or str): Image or name of image to be loaded with the loader module.
         algorithm (str): Denoising algorithm to use.
         algorithm specific parameters are passed through the config file (e.g.: kernel_size,sigma)
 

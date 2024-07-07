@@ -1,12 +1,13 @@
 import json
 
-def update_json_file(file_path, key, new_value):
+
+def update_json_file(file_path: str, key: str, new_value: float) -> None:
     """
     Update a json file.
     args:
         file_path (str): path to the configuration file
         key (str): key
-        new_value: new valueconfiguration
+        new_value (float): new valueconfiguration
     
     """    
     with open(file_path, 'r') as json_file:

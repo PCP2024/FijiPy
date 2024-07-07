@@ -1,7 +1,8 @@
 from midiutil import MIDIFile
 import numpy as np
 
-def create_midi_from_arrays(data: dict, edge_map, saliency_map, output_path: str):
+
+def create_midi_from_arrays(data: dict, edge_map: np.ndarray, saliency_map: np.ndarray, output_path: str) -> None:
     # import hyperparameters from data json file
     time_signature = data['time_signature']
     tempo = data['tempo']

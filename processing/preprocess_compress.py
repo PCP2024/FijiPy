@@ -2,7 +2,8 @@ import numpy as np
 from skimage.transform import resize
 import cv2
 
-def preprocess_compress_image(image):
+
+def preprocess_compress_image(image: np.ndarray) -> np.ndarray:
     """
     THIS FUNCTION MUST BE CALLED AT THE BEGINNING OF THE img2song PROCESSING PIPELINE.
     Ensures image axis 0 maps perfectly to pitch axis of MIDI file.

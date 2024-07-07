@@ -1,3 +1,5 @@
+from typing import Union
+
 import cv2
 import json
 import sys
@@ -9,8 +11,9 @@ from configuration.config_utils import THRESHOLD_TYPE_MAP
 # with open("data_file.json", "r") as read_file:
 #     data = json.load(read_file)
 
+
 ############################################
-def binarize_image(data: dict,image):
+def binarize_image(data: dict,image: Union[str, np.ndarray]) -> np.ndarray:
     """
     Binarize an image using a thresholding method from cv2.
     thresholding hyperparameters can be adjusted in the data json file.

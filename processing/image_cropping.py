@@ -1,11 +1,13 @@
 import json
 import os
+from typing import Union
 import cv2
 
 # with open("data_file.json", "r") as read_file:
 #     data = json.load(read_file)
 
-def crop_image(data: dict, image):
+
+def crop_image(data: dict, image: Union[str, np.ndarray]) -> np.ndarray:
         """
         Crop image into a desired size.
 
