@@ -8,13 +8,10 @@ from processing import (binarization,
                         image_to_midi)
 from dataio import image_saving, image_loader
 import cv2
-# to-do: 
-# 1. I tried to add --config argument to specify the configuration file, but it did not work. 
-# 2. Uncomment lines to run the functions. 
+
 
 def main(): 
-    # call configuration file (data_file.json)
-    
+    # create parser object    
     parser = argparse.ArgumentParser(
         description='Convert image to song.', \
         epilog='By PCP 2024 FijiPy')
@@ -136,6 +133,11 @@ def main():
                         type=int, \
                         help='For midi. Tempo. default: 120', \
                         default=config_data['tempo'])
+    # save config
+    parser.add_argument('--save_config', \
+                        type=str, \
+                        help='location and name to save an updated version of the used config file. default: None', \
+                        default=None)
 
     args = parser.parse_args()
 
@@ -143,6 +145,9 @@ def main():
         with open('VERSION', 'r') as f:
             print('version: ' + f.read())
 
+    if args.save_config is not None:
+        config_file = args.save_config
+        json.dump(config_data, open(config_file, 'w'), indent=4)
     # overwrite the user-specified value in the configuration file.
     for key, value in vars(args).items():
         # if the key is in the configuration file, update the value.
@@ -154,8 +159,7 @@ def main():
     with open(config_file, "r") as read_file:
             config_data = json.load(read_file)
 
-    # to-do 2
-    # run specified fuction
+
     if args.convert == 'binarization':
         print('--binarizing image---')
         proc_img = binarization.binarize_image(config_data, args.input_image_path,)
@@ -207,7 +211,7 @@ def main():
         print('--full processing---')
         proc_img = binarization.binarize_image(config_data, args.input_image_path,) 
         proc_img = edge_detection.detect_edges(config_data, proc_img)
-        # proc_img = image_denoising.denoise_image(config_data, proc_img)  why is this commented out?
+        proc_img = image_denoising.denoise_image(config_data, proc_img) 
         proc_img = dilation.dilate_image(config_data, proc_img)
         image_saving.save_image(args.output_path,proc_img)
     else:
