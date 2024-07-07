@@ -1,9 +1,10 @@
+from configuration.config_utils import STRUCTURING_ELEMENT_TYPE_MAP
 import cv2
 import json
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from configuration.config_utils import STRUCTURING_ELEMENT_TYPE_MAP 
+
 
 with open("data_file.json", "r") as read_file:
     data = json.load(read_file)
