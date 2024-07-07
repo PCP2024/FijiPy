@@ -6,8 +6,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from configuration.config_utils import THRESHOLD_TYPE_MAP
 
-with open("data_file.json", "r") as read_file:
-    data = json.load(read_file)
+# with open("data_file.json", "r") as read_file:
+#     data = json.load(read_file)
 
 ############################################
 def binarize_image(data: dict,image):

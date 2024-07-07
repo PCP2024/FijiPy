@@ -2,8 +2,8 @@ import numpy as np
 import cv2
 import json
 
-with open("data_file.json", "r") as read_file:
-    data = json.load(read_file)
+# with open("data_file.json", "r") as read_file:
+#     data = json.load(read_file)
 
 ############################################
 def detect_edges(data: dict,image):
