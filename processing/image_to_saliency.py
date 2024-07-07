@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import numpy as np
 import scipy
 from matplotlib import colors
@@ -5,24 +7,26 @@ import cv2
 from tqdm import tqdm
 
 
-def generate_per_channel_saliency(data: dict, image: np.ndarray) -> np.ndarray:
-    """
-        Generates normalized saliency map per channel of an input image
+def generate_per_channel_saliency(data: dict, image: np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    """Generates normalized saliency map per channel of an input image
 
-        Parameters
-        ----------
-        image : numpy.ndarray
-            Array of size (NxMxC), (NxM) is the size of the image and C 3 for RGB
-            and 1 for black and white
-        patch_size: int
-            size of patch (patch_size x patch_size) to compute each pixel's saliency over
+    Parameters
+    ----------
+    data: dict :
+        Extra argument to saliency map calculation: Possible argument includes the
+        'patch_size' of type `int`.
+    image: Union[str : Image file path.
 
-        Returns
-        -------
-        saliency_map : numpy.ndarray
-            Array of size (N-(patch_size-1)xM-(patch_size-1)xC), (NxM) is the size of the image and C 3 for RGB
-            and 1 for black and white containing normalized saliency values
+                 np.ndarray] : Array of size (NxMxC), (NxM) is the size of the image and C=3 for RGB.
 
+    Returns
+    -------
+    Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray] :
+        Normalized saliency with pixel values from 0 to 255 (Array of size (N-(patch_size-1)xM-(patch_size-1)xC),
+        (NxM) is the size of the image and C 3 for RGB and 1 for black and white containing normalized saliency values)
+        and each of 3 channels' saliency map separately in that order.
+
+    
     """
     if isinstance(image, str):
         image = cv2.imread(image)
@@ -52,18 +56,19 @@ def generate_per_channel_saliency(data: dict, image: np.ndarray) -> np.ndarray:
 
 
 def merge_saliency_maps(saliency_maps: np.ndarray) -> np.ndarray:
-    """
-    Merges three saliency maps into one by averaging their values.
+    """Merges three saliency maps into one by averaging their values.
 
     Parameters
     ----------
-    saliency_maps : numpy.ndarray
+    saliency_maps : np.ndarray :
         Array of size (NxMxC), (NxM) is the size of the image and C is 3 for RGB.
+        
 
     Returns
     -------
-    merged_map : numpy.ndarray
-        Array of size (NxM) containing the averaged saliency values.
+    np.ndarray:
+        Merged saliency maps
+    
     """
     # Calculate the average saliency map across the channels
     merged_map = np.mean(saliency_maps, axis=-1)

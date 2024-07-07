@@ -1,4 +1,5 @@
 from typing import Union
+import numpy as np
 from configuration.config_utils import STRUCTURING_ELEMENT_TYPE_MAP
 import cv2
 import json
@@ -12,16 +13,24 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 ############################################
 def dilate_image(data: dict, image: Union[str, np.ndarray]) -> np.ndarray:
-    """
-    Dilate an image using a structuring element of the specified size.
+    """Dilate an image using a structuring element of the specified size.
 
-    Args:
-        image (ndarray or str): Input image as ndarray or image path.
-        kernel_size (tuple, optional): Size of the structuring element.
-        iterations (int, optional): Number of times to apply the dilation.
+    Parameters
+    ----------
+    data: dict :
+        Extra arguments to `cv2.getStructuringElement` and `cv2.dilate`: Possible arguments include
+        'structuring_element_size', 'structuring_element_type', 'dilation_iterations'
+        Please refer to the respective documentation for more information.
+    image: Union[str : Image file path.
 
-    Returns:
-        ndarray: Dilated image.
+                 np.ndarray] : Image array.
+        
+
+    Returns
+    -------
+    np.ndarray
+        Dilated image.
+
     """
     if isinstance(image, str):
         image = cv2.imread(image)

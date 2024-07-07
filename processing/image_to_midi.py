@@ -3,6 +3,26 @@ import numpy as np
 
 
 def create_midi_from_arrays(data: dict, edge_map: np.ndarray, saliency_map: np.ndarray, output_path: str) -> None:
+    """
+
+    Parameters
+    ----------
+    data: dict :
+        Extra arguments to `MIDIFile.addTempo` and `MIDIFile.addTimeSignature`: Possible arguments include
+        'tempo' and 'time_signature'.
+        Please refer to the respective documentation for more information.
+    edge_map: np.ndarray :
+        Edge map as resulting from `fijipy.processing.edge_detection.detect_edges`
+    saliency_map: np.ndarray :
+        Saliency map as resulting from a function in `fijipy.processing.image_to_saliency`
+    output_path: str :
+        Output path to save MIDI file
+
+    Returns
+    -------
+    None
+
+    """
     # import hyperparameters from data json file
     time_signature = data['time_signature']
     tempo = data['tempo']

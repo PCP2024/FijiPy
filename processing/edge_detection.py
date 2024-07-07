@@ -9,15 +9,23 @@ import json
 
 ############################################
 def detect_edges(data: dict, image: Union[str, np.ndarray]) -> np.ndarray:
-    """
-    Detect edges in an image using the Canny edge detection algorithm.
+    """Detect edges in an image using the Canny edge detection algorithm.
 
-    Args:
-        image_path (str, optional): Path to the image file.
-        image (ndarray, optional): Input image.
+    Parameters
+    ----------
+    data: dict :
+        Extra arguments to `cv2.Canny`: Possible arguments include
+        'canny_lower_threshold', and 'canny_upper_threshold'.
+        Please refer to the `cv2.Canny` documentation for more information.
+    image: Union[str : Image file path.
+                 np.ndarray] : Image array.
+        
 
-    Returns:
-        ndarray: Image with detected edges.
+    Returns
+    -------
+    np.ndarray
+        Image with detected edges.
+
     """
     if isinstance(image, str):
         image = cv2.imread(image)

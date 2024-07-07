@@ -1,5 +1,5 @@
 import subprocess
-from midi2audio import FluidSynth
+#from midi2audio import FluidSynth
 import pygame
 
 
@@ -22,13 +22,24 @@ import pygame
 #         logging.error("File not found: %s", e.filename)
 
 def play_music(midi_filename: str) -> None:
-  '''Stream music_file in a blocking manner'''
-  clock = pygame.time.Clock()
-  pygame.mixer.music.load(midi_filename)
-  pygame.mixer.music.play()
-  while pygame.mixer.music.get_busy():
-    clock.tick(30) # check if playback has finished
-    
+    """Stream music_file in a blocking manner
+
+    Parameters
+    ----------
+    midi_filename: str : Path to MIDI file to play
+        
+
+    Returns
+    -------
+    None
+
+    """
+    clock = pygame.time.Clock()
+    pygame.mixer.music.load(midi_filename)
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy():
+        clock.tick(30) # check if playback has finished
+
 midi_filename = 'image_score.mid'
 
 # mixer config
@@ -43,12 +54,12 @@ pygame.mixer.music.set_volume(0.8)
 
 # listen for interruptions
 try:
-  # use the midi file you just saved
-  play_music(midi_filename)
+    # use the midi file you just saved
+    play_music(midi_filename)
 except KeyboardInterrupt:
-  # if user hits Ctrl/C then exit
-  # (works only in console mode)
-  pygame.mixer.music.fadeout(1000)
-  pygame.mixer.music.stop()
-  raise SystemExit
+    # if user hits Ctrl/C then exit
+    # (works only in console mode)
+    pygame.mixer.music.fadeout(1000)
+    pygame.mixer.music.stop()
+    raise SystemExit
 
