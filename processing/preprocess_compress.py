@@ -27,6 +27,9 @@ def preprocess_compress_image(image):
     # Resize the image to have axis 0 length = 128 while preserving aspect ratio
     compressed_image = resize(image, (128, int(image.shape[1]*compression_factor)),
                               anti_aliasing=True)
+    
+    # Convert to np.uint8 as OpenCV expects this format
+    compressed_image = (compressed_image * 255).astype(np.uint8)
 
     return compressed_image
 
