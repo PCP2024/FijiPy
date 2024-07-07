@@ -1,3 +1,4 @@
+import os
 import unittest
 from unittest.mock import patch, MagicMock, call
 import numpy as np
@@ -9,6 +10,7 @@ class TestCreateMIDIFromArrays(unittest.TestCase):
         self.edge_map = np.array([[1, 0, 1], [0, 1, 0]])
         self.saliency_map = np.array([[64, 127, 32], [0, 96, 100]])
         self.data = {'time_signature': (4, 4),'tempo': 150, 'output_file': "test_output.mid"}
+        self.output_path = 'demodata/test_output.mid'
 
     def tearDown(self):
         """ Tear down test variable object attributes """
@@ -16,12 +18,15 @@ class TestCreateMIDIFromArrays(unittest.TestCase):
         delattr(self, "edge_map")
         delattr(self, "data")
 
+        os.remove(os.path.join(os.getcwd(), self.output_path))
+        delattr(self, "output_path")
+
     def test_create_midi_from_arrays(self):
     # Mock MIDIFile and its methods
         with patch("processing.image_to_midi.MIDIFile") as mock_midi_file:
 
             # Call the function
-            create_midi_from_arrays(self.data, self.edge_map, self.saliency_map)
+            create_midi_from_arrays(self.data, self.edge_map, self.saliency_map, self.output_path)
 
             # Assertions
             mock_midi_file.assert_called_once_with(1, file_format=1)
