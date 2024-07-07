@@ -1,7 +1,8 @@
 import cv2
+import numpy as np
 
 
-def save_image(output_image_path, image):
+def save_image(output_image_path: str, image: np.ndarray) -> None:
     """
     Imports an image
 
@@ -16,7 +17,8 @@ def save_image(output_image_path, image):
 
     Returns
     -------
+    None
         
     """
     
-    return cv2.imwrite(output_image_path, image)
+    cv2.imwrite(output_image_path, image)

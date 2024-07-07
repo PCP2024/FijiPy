@@ -1,3 +1,4 @@
+from typing import Union
 from configuration.config_utils import STRUCTURING_ELEMENT_TYPE_MAP
 import cv2
 import json
@@ -10,7 +11,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 #     data = json.load(read_file)
 
 ############################################
-def dilate_image(data: dict,image):
+def dilate_image(data: dict, image: Union[str, np.ndarray]) -> np.ndarray:
     """
     Dilate an image using a structuring element of the specified size.
 

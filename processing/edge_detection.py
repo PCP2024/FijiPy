@@ -1,3 +1,4 @@
+from typing import Union
 import numpy as np
 import cv2
 import json
@@ -5,8 +6,9 @@ import json
 # with open("data_file.json", "r") as read_file:
 #     data = json.load(read_file)
 
+
 ############################################
-def detect_edges(data: dict,image):
+def detect_edges(data: dict, image: Union[str, np.ndarray]) -> np.ndarray:
     """
     Detect edges in an image using the Canny edge detection algorithm.
 

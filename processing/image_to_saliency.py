@@ -50,6 +50,7 @@ def generate_per_channel_saliency(data: dict, image: np.ndarray) -> np.ndarray:
     saliency_maps *= 255 # return pixel values in range [0,255]
     return saliency_maps, saliency_maps[:, :, 0], saliency_maps[:, :, 1], saliency_maps[:, :, 2]
 
+
 def merge_saliency_maps(saliency_maps: np.ndarray) -> np.ndarray:
     """
     Merges three saliency maps into one by averaging their values.
