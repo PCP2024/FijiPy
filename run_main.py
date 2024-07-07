@@ -8,7 +8,7 @@ from processing import (binarization,
                         image_to_midi)
 from dataio import image_saving, image_loader
 import cv2
-
+import os
 
 def main(): 
     # create parser object    
@@ -229,8 +229,9 @@ def main():
         image_to_midi.create_midi_from_arrays(config_data, edge_map, saliency_map, args.output_path)
         print('5/5 steps completed: MIDI file successfully generated.')
         if args.save_intermediate == True:
-            # remove the file name and save the intermediate images in the same directory
-            base_path = '/'.join(args.output_path.split('/')[:-1])  # Get the directory part of output_path
+            base_path = os.path.dirname(args.output_path)  # Get the directory part of output_path
+            print('Intermediate images will be saved in the same directory as the output file: ', base_path)
+
             image_saving.save_image(base_path + '/compressed_img.jpg',proc_img)
             image_saving.save_image(base_path + '/binarized_img.jpg',binarized_img)
             image_saving.save_image(base_path +'/edge_map.jpg',edge_map)
