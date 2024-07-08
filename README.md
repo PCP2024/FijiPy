@@ -40,7 +40,11 @@ The primary interface with the library happens via `run_main.py`:
 python run_main.py --help # visualize required and optional arguments
 ```
 
-To process an image in one of the available ways, the base command structure is `python run_main.py` + `input_path` + `conversion_type` + `output_path`, where:
+To process an image in one of the available ways, the base command structure is:
+```bash
+python run_main.py input_path conversion_type output_path
+```
+where:
 - `input_path` designates the path to input image
 - `conversion_type` designates one of the available processing functions or stacks thereof
 - `output_path` designates the desired output path of either an image or a `.mid` file
@@ -56,6 +60,7 @@ Available conversion modes include:
 - `image_2_midi` -> generate a MIDI score from image
 - `all` -> apply all available processing functions to image
 
+To gather further information about how each voncersion mdoe works, one can consult the docstring of each processing function in the folder `./processing`.
 
 ### 4.1 Installation & usage examples
 #### Option 1: in your python environment    
