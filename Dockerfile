@@ -15,7 +15,7 @@ COPY . /app
 #RUN apt-get update && apt-get install libgl1 -y
 RUN apt-get update && apt-get install -y python3-opencv \ 
     sudo \ 
-	wget \ 
+    wget \ 
     vim 
 
 # Install pip requirements
