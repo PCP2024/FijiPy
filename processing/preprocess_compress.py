@@ -2,17 +2,23 @@ import numpy as np
 from skimage.transform import resize
 import cv2
 
-def preprocess_compress_image(image):
-    """
-    THIS FUNCTION MUST BE CALLED AT THE BEGINNING OF THE img2song PROCESSING PIPELINE.
+
+def preprocess_compress_image(image: np.ndarray) -> np.ndarray:
+    """THIS FUNCTION MUST BE CALLED AT THE BEGINNING OF THE img2song PROCESSING PIPELINE.
     Ensures image axis 0 maps perfectly to pitch axis of MIDI file.
     Compress the input image to have axis 0 length <= 128.
 
-    Args:
-        image (ndarray): Input image.
+    Parameters
+    ----------
+    image : np.ndarray :
+        Input image.
+        
 
-    Returns:
-        ndarray: Compressed image.
+    Returns
+    -------
+    np.ndarray
+        Compressed image.
+
     """
     if isinstance(image, str):
         image = cv2.imread(image)
@@ -27,6 +33,9 @@ def preprocess_compress_image(image):
     # Resize the image to have axis 0 length = 128 while preserving aspect ratio
     compressed_image = resize(image, (128, int(image.shape[1]*compression_factor)),
                               anti_aliasing=True)
+    
+    # Convert to np.uint8 as OpenCV expects this format
+    compressed_image = (compressed_image * 255).astype(np.uint8)
 
     return compressed_image
 

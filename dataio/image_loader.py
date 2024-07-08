@@ -6,9 +6,12 @@ Created on Tue Apr 30 16:56:04 2024
 """
 
 import cv2
+import os
+
+import numpy as np
 
 
-def load_image(imagename):
+def load_image(imagename: str) -> np.ndarray:
     """
     Imports an image
 

@@ -1,11 +1,40 @@
 from midiutil import MIDIFile
 import numpy as np
 
-def create_midi_from_arrays(data: dict, edge_map, saliency_map):
+
+def create_midi_from_arrays(data: dict, edge_map: np.ndarray, saliency_map: np.ndarray, output_path: str) -> None:
+    """
+
+    Parameters
+    ----------
+    data: dict :
+        Extra arguments to `MIDIFile.addTempo` and `MIDIFile.addTimeSignature`: Possible arguments include
+        'tempo' and 'time_signature'.
+        Please refer to the respective documentation for more information.
+    edge_map: np.ndarray :
+        Edge map as resulting from `fijipy.processing.edge_detection.detect_edges`
+    saliency_map: np.ndarray :
+        Saliency map as resulting from a function in `fijipy.processing.image_to_saliency`
+    output_path: str :
+        Output path to save MIDI file
+
+    Returns
+    -------
+    None
+
+    """
     # import hyperparameters from data json file
     time_signature = data['time_signature']
     tempo = data['tempo']
-    output_file = data['output_file']
+    #output_file = data['output_file']
+
+    # check if edge_map and saliency_map have the same shape
+    if edge_map.shape != saliency_map.shape:
+        # crop the larger array to the smaller array
+        #print("Shape of edge map: ", edge_map.shape)
+        #print("Shape of saliency map: ", saliency_map.shape)
+        # crop the larger array to match both dimensions of the smaller array
+        edge_map = edge_map[:saliency_map.shape[0], :saliency_map.shape[1]]
 
     # Mask saliency array to assign a velocity to each note
     # saliency must take values between 0 and 127 !!!!
@@ -40,7 +69,7 @@ def create_midi_from_arrays(data: dict, edge_map, saliency_map):
         time += duration
 
     # Write the MIDI events to a file
-    with open(output_file, "wb") as f:
+    with open(output_path, "wb") as f:
         midi_file.writeFile(f)
 
 ############################
