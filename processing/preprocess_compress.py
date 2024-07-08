@@ -4,16 +4,21 @@ import cv2
 
 
 def preprocess_compress_image(image: np.ndarray) -> np.ndarray:
-    """
-    THIS FUNCTION MUST BE CALLED AT THE BEGINNING OF THE img2song PROCESSING PIPELINE.
+    """THIS FUNCTION MUST BE CALLED AT THE BEGINNING OF THE img2song PROCESSING PIPELINE.
     Ensures image axis 0 maps perfectly to pitch axis of MIDI file.
     Compress the input image to have axis 0 length <= 128.
 
-    Args:
-        image (ndarray): Input image.
+    Parameters
+    ----------
+    image : np.ndarray :
+        Input image.
+        
 
-    Returns:
-        ndarray: Compressed image.
+    Returns
+    -------
+    np.ndarray
+        Compressed image.
+
     """
     if isinstance(image, str):
         image = cv2.imread(image)
