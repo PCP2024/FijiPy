@@ -26,7 +26,9 @@ def create_midi_from_arrays(data: dict, edge_map: np.ndarray, saliency_map: np.n
     # import hyperparameters from data json file
     time_signature = data['time_signature']
     tempo = data['tempo']
-    #output_file = data['output_file']
+    
+    # convert edge_map back to binary
+    edge_map = np.where(edge_map > 0, 1, 0)
 
     # check if edge_map and saliency_map have the same shape
     if edge_map.shape != saliency_map.shape:
@@ -35,11 +37,19 @@ def create_midi_from_arrays(data: dict, edge_map: np.ndarray, saliency_map: np.n
         #print("Shape of saliency map: ", saliency_map.shape)
         # crop the larger array to match both dimensions of the smaller array
         edge_map = edge_map[:saliency_map.shape[0], :saliency_map.shape[1]]
+    
+    # print("Range of values in edge_map: ", np.min(edge_map), np.max(edge_map))
+    # print("Range of values in saliency_map: ", np.min(saliency_map), np.max(saliency_map))
 
     # Mask saliency array to assign a velocity to each note
     # saliency must take values between 0 and 127 !!!!
+    # if range of saliency_map is outside of [0,127] normalize saliency values to be between 0 and 127
+    if np.max(saliency_map) > 127:
+        saliency_map = (saliency_map / np.max(saliency_map)) * 127
     # must be the same shape as edge_map
     masked_saliency_map = np.where(edge_map == 1, saliency_map, 0)
+    print("Range of values in masked_saliency_map: ", np.min(masked_saliency_map), np.max(masked_saliency_map))
+    masked_saliency_map = np.round(masked_saliency_map).astype(int)
     masked_saliency_map = masked_saliency_map.T
     # Create a MIDIFile object with one track
     midi_file = MIDIFile(1, file_format=1)
@@ -60,8 +70,10 @@ def create_midi_from_arrays(data: dict, edge_map: np.ndarray, saliency_map: np.n
     # Iterate through the transposed numpy array and add MIDI events
     time = 0
     duration = 1  # Duration of each note (in beats)
+    
     for i, row in enumerate(transposed_edge_map):
         for j, value in enumerate(row):
+
             if value == 1:
                 pitch = j  # Use j as pitch since it's iterating through columns
                 velocity = masked_saliency_map[i, j]
@@ -79,4 +91,4 @@ def create_midi_from_arrays(data: dict, edge_map: np.ndarray, saliency_map: np.n
 # edges = np.random.choice([0, 1], size=(50, 120), p=[1 - probability_edges, probability_edges])
 # saliency = np.random.choice([0, 1, 2, 3, 4, 5, 6, 7], size=(50, 120), p=[0.3, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])
 
-# create_midi_from_arrays(edges, saliency)
+# create_midi_from_arrays(data= {'time_signature': (4, 4), 'tempo': 120}, edge_map=edges, saliency_map=saliency, output_path="output.mid")

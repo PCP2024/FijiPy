@@ -39,11 +39,10 @@ def preprocess_compress_image(image: np.ndarray) -> np.ndarray:
 
     return compressed_image
 
-# Test the function >>>> OK
-# implement full test
-#import cv2
-#image = cv2.imread("demodata/demo_Image.jpg")
-#compressed_image = preprocess_compress_image(image)
+# #Test the function >>>> OK
+# import cv2
+# image = cv2.imread("demodata/demo_Image.jpg")
+# compressed_image = preprocess_compress_image(image)
 
-#print(f"Original image shape: {image.shape}")
-#print(f"Compressed image shape: {compressed_image.shape}")
+# print(f"Original image shape: {image.shape}")
+# print(f"Compressed image shape: {compressed_image.shape}")

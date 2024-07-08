@@ -200,12 +200,15 @@ def main():
         proc_img = preprocess_compress.preprocess_compress_image(args.input_image_path,)
         image_saving.save_image(args.output_path,proc_img)
     elif args.convert == 'image_2_midi':
+        image = cv2.imread(args.input_image_path)
+        proc_img = preprocess_compress.preprocess_compress_image(image,)
+
         print('--converting image to midi---')
-        binarized_img = binarization.binarize_image(config_data, args.input_image_path,)
+        binarized_img = binarization.binarize_image(config_data, proc_img)
         print('1/5 steps completed')
         edge_map = edge_detection.detect_edges(config_data, binarized_img)
         print('2/5 steps completed')
-        saliency_map, _, _, _ = image_to_saliency.generate_per_channel_saliency(config_data, args.input_image_path,)
+        saliency_map, _, _, _ = image_to_saliency.generate_per_channel_saliency(config_data, proc_img)
         print('3/5 steps completed')
         saliency_map = image_to_saliency.merge_saliency_maps(saliency_map)
         print('4/5 steps completed')
