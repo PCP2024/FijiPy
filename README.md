@@ -84,8 +84,8 @@ docker cp Container:"/app/output_path" "Destination in your local"
 e.g. 
 ```bash
 docker build -t fijipy:latest . 
-docker run --name test_fijipy fijipy:latest ./demodata/demo_Image.jpg crop demo_test.jpg
-docker cp test_fijipy:"/app/demo_test.jpg" "./demo_test.jpg"
+docker run --name test_fijipy fijipy:latest ./demodata/demo_Image.jpg image_2_midi demo_test.mid
+docker cp test_fijipy:"/app/demo_test.mid" "./demo_test.mid"
 ```
 
 
