@@ -1,8 +1,1 @@
-{"kernel_size_median": 3, "sigma": 1, "denoising_algorithm": "median", "kernel_size_gaussian": [3,3],
-"canny_lower_threshold": 100, "canny_upper_threshold": 120, 
-"threshold_type": "THRESH_BINARY_OTSU", "max_value": 255, "threshold_value": 50, 
-"structuring_element_type": "MORPH_RECT", "structuring_element_size": [3,3], "dilation_iterations": 2,
-"crop_width": 100, "crop_height": 100, "crop_x": 0, "crop_y": 0,
-"patch_size": 15,
-"time_signature": [4,4], "tempo": 150
-}
+{"kernel_size_median": 3, "sigma": 1, "denoising_algorithm": "median", "kernel_size_gaussian": [3, 3], "canny_lower_threshold": 100, "canny_upper_threshold": 120, "threshold_type": "THRESH_BINARY_OTSU", "max_value": 255, "threshold_value": 50, "structuring_element_type": "MORPH_RECT", "structuring_element_size": [3, 3], "dilation_iterations": 2, "crop_width": 100, "crop_height": 100, "crop_x": 0, "crop_y": 0, "patch_size": 15, "time_signature": [4, 4], "tempo": 150}
