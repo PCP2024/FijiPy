@@ -135,36 +135,36 @@ python run_main.py --config config.json input_image.jpg output.mid
 ### 5.2 Command-Line Arguments
 In addition to (or instead of) using a configuration file, you can specify parameters directly via command-line arguments. The following is a list of all available arguments:
 
---config: Path to the configuration file. Default is data_file.json.
---version: Show version information. Default is False.
+- `--config`: Path to the configuration file. Default is data_file.json.
+- `--version`: Show version information. Default is False.
 Denoising:
---denoising_algorithm: Denoising algorithm. Default is from config file.
---kernel_size_gaussian: Kernel size of Gaussian filter. Default is from config file.
---kernel_size_median: Kernel size of median filter (int). Default is from config file.
---sigma: Sigma value. Default is from config file.
+- `--denoising_algorithm`: Denoising algorithm. Default is from config file.
+- `--kernel_size_gaussian`: Kernel size of Gaussian filter. Default is from config file.
+- `--kernel_size_median`: Kernel size of median filter (int). Default is from config file.
+- `--sigma`: Sigma value. Default is from config file.
 Edge Detection:
---canny_lower_threshold: Canny lower threshold. Default is from config file.
---canny_upper_threshold: Canny upper threshold. Default is from config file.
+- `--canny_lower_threshold`: Canny lower threshold. Default is from config file.
+- `--canny_upper_threshold`: Canny upper threshold. Default is from config file.
 Binarisation:
---threshold_type: Threshold type. Default is from config file.
---max_value: Max value for thresholding. Default is from config file.
---threshold_value: Threshold value. Default is from config file.
+- `--threshold_type`: Threshold type. Default is from config file.
+- `--max_value`: Max value for thresholding. Default is from config file.
+- `--threshold_value`: Threshold value. Default is from config file.
 Dilation:
---structuring_element_type: Structuring element type. Default is from config file.
---structuring_element_size: Structuring element size. Default is from config file.
---dilation_iterations: Number of dilation iterations. Default is from config file.
+- `--structuring_element_type`: Structuring element type. Default is from config file.
+- `--structuring_element_size`: Structuring element size. Default is from config file.
+- `--dilation_iterations`: Number of dilation iterations. Default is from config file.
 Image Cropping:
---crop_width: Width of the crop region. Default is from config file.
---crop_height: Height of the crop region. Default is from config file.
---crop_x: X-coordinate of the top-left corner of the crop region. Default is from config file.
---crop_y: Y-coordinate of the top-left corner of the crop region. Default is from config file.
+- `--crop_width`: Width of the crop region. Default is from config file.
+- `--crop_height`: Height of the crop region. Default is from config file.
+- `--crop_x`: X-coordinate of the top-left corner of the crop region. Default is from config file.
+- `--crop_y`: Y-coordinate of the top-left corner of the crop region. Default is from config file.
 Saliency Detection:
---patch_size: Patch size for saliency detection. Default is from config file.
+- `--patch_size`: Patch size for saliency detection. Default is from config file.
 MIDI Conversion:
---time_signature: Time signature for MIDI. Default is from config file.
---tempo: Tempo for MIDI. Default is from config file.
---save_config: Location and name to save an updated version of the used config file. Default is None.
---save_intermediate: Save intermediate images in the output path if using the option convert 'all'. Default is False.
+- `--time_signature`: Time signature for MIDI. Default is from config file.
+- `--tempo`: Tempo for MIDI. Default is from config file.
+- `--save_config`: Location and name to save an updated version of the used config file. Default is None.
+- `--save_intermediate`: Save intermediate images in the output path if using the option convert 'all'. Default is False.
 
 Example Command-Line Usage:
 ```bash
