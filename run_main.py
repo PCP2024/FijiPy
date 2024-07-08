@@ -27,6 +27,7 @@ def main():
     parser.add_argument('output_path', \
                         type=str, \
                         help='Path to the output file (either image or audio).')
+    
     # to-do 1
     parser.add_argument('--config', type=str, help='Path to the configuration file.', default='data_file.json')
     args, unknown = parser.parse_known_args()
