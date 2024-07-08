@@ -88,12 +88,6 @@ docker run --name test_fijipy fijipy:latest ./demodata/demo_Image.jpg all demo_t
 docker cp test_fijipy:"/app/demo_test.mid" "./demo_test.mid"
 ```
 
-
-```bash
-docker restart test_fijipy # start your container 
-docker cp image.jpg test_fijipy:"/app/demodata/image.jpg" # copy your image.jpg to demodata in your container. 
-docker exec test_fijipy python run_main.py ./demodata/image.jpg crop demo_test.jpg # crop image
-```
 Once you done, you may want to delete the container. 
 
 ## 5. Configuration
