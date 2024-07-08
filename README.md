@@ -168,15 +168,15 @@ MIDI Conversion:
 
 Example Command-Line Usage:
 ```bash
-python run_main.py --denoising_algorithm gaussian --kernel_size_gaussian [7,7] --sigma 1.5 input_image.jpg output.mid
+python run_main.py --denoising_algorithm gaussian --kernel_size_gaussian [7,7] --sigma 1.5 input_image.jpg all output.mid
 ```
 
 ### 5.3 Combined Usage
-You can combine the configuration file and command-line arguments. Command-line arguments will override the corresponding values in the configuration file.
+You can combine the configuration file and command-line arguments. Command-line arguments will override the corresponding values in the configuration file, unless the `--save_config` option is set to True.
 
 Example Combined Usage
 ```bash
-python run_main.py --config config.json --sigma 2.0 input_image.jpg output.mid
+python run_main.py --config config.json --sigma 2.0 input_image.jpg all output.mid
 ```
 In this example, all parameters will be loaded from `config.json` except for sigma, which will be set to 2.0.
 
