@@ -13,24 +13,29 @@ from configuration.config_utils import THRESHOLD_TYPE_MAP
 
 
 ############################################
-def binarize_image(data: dict,image: Union[str, np.ndarray]) -> np.ndarray:
-    """
-    Binarize an image using a thresholding method from cv2.
+def binarize_image(data: dict, image: Union[str, np.ndarray]) -> np.ndarray:
+    """Binarize an image using a thresholding method from cv2.
     thresholding hyperparameters can be adjusted in the data json file.
     hyperparameters include
     threshold_value: range 0-255. value at which the thresholding is applied. values higher than threshold value are set to max_value, values lower than threshold value are set to 0.
     max_value: range 0-255. value to set the pixel to if the pixel value is higher than the threshold value.
     threshold_type: thresholding type/algortihm. choose from ["THRESH_BINARY", "THRESH_BINARY_INV", "THRESH_TRUNC", "THRESH_TOZERO", "THRESH_TOZERO_INV", "THRESH_MASK", "THRESH_OTSU", "THRESH_TRIANGLE", "THRESH_BINARY_OTSU"]
 
-    Args:
-        image_path (str, optional): Path to the image file.
-        image (ndarray, optional): Image array.
-        threshold_value (int, optional): Threshold value.
-        max_value (int, optional): Max value.
-        threshold_type (int, optional): Threshold type.
+    Parameters
+    ----------
+    data: dict :
+        Extra arguments to `cv2.threshold`: Possible arguments include
+        'threshold_value', 'max_value', and 'threshold_type'.
+        Please refer to the `cv2.threshold` documentation for more information.
+    image: Union[str : Image file path.
 
-    Returns:
-        ndarray: Binarized image.
+                 np.ndarray] : Image array.
+
+    Returns
+    -------
+    np.ndarray
+        Binarized image.
+
     """
     if isinstance(image, str):
         image = cv2.imread(image)

@@ -9,19 +9,25 @@ import numpy as np
 
 
 def crop_image(data: dict, image: Union[str, np.ndarray]) -> np.ndarray:
-        """
-        Crop image into a desired size.
+    """Crop image into a desired size.
 
-        Args:
-            image (ndarray): Input image.
-            crop_width (int): Width of the crop region.
-            crop_height (int): Height of the crop region.
-            crop_x (int, optional): X-coordinate of the top-left corner of the crop region. Defaults to 0.
-            crop_y (int, optional): Y-coordinate of the top-left corner of the crop region. Defaults to 0.
-            
-        Returns:
-            ndarray: Cropped image.
-        """
+    Parameters
+    ----------
+    data: dict :
+        Extra arguments of type `int` for cropping procedure: Possible arguments include
+        'crop_width', 'crop_height', 'crop_x', and 'crop_y'. The latter two arguments specify the index
+        at which the cropped image starts in each dimension. The former two arguments dictate the shape of
+        the resulting image.
+    image: Union[str : Image file path.
+
+                 np.ndarray] : Image array.
+
+    Returns
+    -------
+    np.ndarray
+        Cropped image.
+
+    """
         # either load the image from the path or use the image array
         if isinstance(image, str):
             image = cv2.imread(image)
