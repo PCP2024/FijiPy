@@ -81,14 +81,20 @@ docker build -t fijipy:latest . # Create a docker image from Docker file. (Do th
 docker run fijipy:latest  input_path convertion_type output_path --optional=xxx 
 docker cp Container:"/app/output_path" "Destination in your local"
 ```
+
 e.g. 
 ```bash
 docker build -t fijipy:latest . 
 docker run --name test_fijipy fijipy:latest ./demodata/demo_Image.jpg all demo_test.mid
 docker cp test_fijipy:"/app/demo_test.mid" "./demo_test.mid"
 ```
-
 Once you done, you may want to delete the container. 
+
+e.g. (convert download.jpeg in your local /full_path/data)
+```bash
+docker build -t fijipy:latest .
+docker run --rm -v /full_path/data:/app/data --name fijipy_container fijipy:latest ./data/download.jpeg all ./data/download.mid
+```
 
 ## 5. Configuration
 This tool provides a wide range of configurable options, which can be specified either directly via command-line arguments or through a configuration file. Below is an explanation of how to use these options effectively.
