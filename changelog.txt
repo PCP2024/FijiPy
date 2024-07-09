@@ -1,22 +1,68 @@
-# Changlog
-Tracking changes in FijiPy.
+image2song Changelog
+====================
 
-#######################
+Version 0.0.0 (2024-04-23)
+------------------------
+- Initial commit.
 
-## [0.0.1]
-- Initial version with functions and tests.
+Version 0.0.1 (2024-04-30)
+------------------------
+- initial project setup.
 
+Version 0.0.2 (2024-05-07)
+------------------------
+- Added image_denoising.py with two denoising options.
+- Organized tests directory.
+- Fixed issues with creating virtual environment from requirements.txt.
 
+Version 0.0.3 (2024-05-14)
+------------------------
+- Implemented image cropping functionality.
+- Added image saving functionality.
+- Updated README.md.
 
-## [0.0.2] - 2024-05-28
+Version 0.0.4 (2024-05-21)
+------------------------
+- Added dilation functionality.
+- Implemented edge detection.
+- added basic command line interface.
 
-### Added 
-- Command Line Interface
-- Add packages for saliency map in requirements.txt
+Version 0.0.5 (2024-05-28)
+------------------------
+- Added saliency map generation functionality.
+- Updated requirements.txt and changed version accordingly.
+- Fixed bugs related to image processing modules.
 
+Version 0.0.6 (2024-06-04)
+------------------------
+- Completed full image to MIDI pipeline.
+- Introduced soundfont patch for MIDI to audio compilation.
+- Added progress bar for saliency map generation.
 
-## [0.0.3] - 2024-06-11
+Version 0.0.7 (2024-06-11)
+------------------------
+- Fixed bugs in image preprocessing functions.
+- Updated configuration file handling.
 
-### Added 
-- Add docker file
+Version 0.0.8 (2024-06-18)
+------------------------
+- Enhanced documentation with usage examples.
+- Optimized performance of image processing algorithms.
+
+Version 0.0.9 (2024-06-25)
+------------------------
+- Added typing and docstrings for improved code readability.
+- Updated requirements.txt to reflect new dependencies.
+
+Version 0.1.0 (2024-07-02)
+------------------------
+- Implemented image compression for maximum pitch range.
+- Added functionality to save updated configuration files.
+- Added option to save intermediate images.
+- Added Docker support for running the code.
+
+Version 0.1.1 (2024-07-08)
+------------------------
+- Fixed an indentation error in cropping.
+- Fixed some bugs in MIDI file generation process.
 

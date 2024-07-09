@@ -24,11 +24,8 @@ class FijiPyTestImageCropping(unittest.TestCase):
         self.crop_height = 100 
         self.crop_x = 50
         self.crop_y = 50
-        self.cropped_image = self.crop_image(self.image, \
-                                             self.crop_width, \
-                                             self.crop_height, \
-                                             self.crop_x, \
-                                             self.crop_y)
+        self.data = {'crop_width': self.crop_width,  'crop_height': self.crop_height, 'crop_x': self.crop_x, 'crop_y': self.crop_y}
+        self.cropped_image = self.crop_image(image=self.image, data=self.data)
         
     def tearDown(self):
         """ Tear down test variable object attributes """

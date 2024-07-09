@@ -3,37 +3,54 @@ import cv2
 import json
 import os
 import sys
+from typing import Union
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-with open("data_file.json", "r") as read_file:
-    data = json.load(read_file)
+# with open("data_file.json", "r") as read_file:
+#     data = json.load(read_file)
+
 
 ############################################
-def median_filter(image, kernel_size):
-    """
-    Apply median filtering to the input image.
+def median_filter(image: np.ndarray, kernel_size: int) -> np.ndarray:
+    """Apply median filtering to the input image.
 
-    Args:
-        image (ndarray): Input image.
-        kernel_size (int): Size of the median filter kernel.
+    Parameters
+    ----------
+    image : np.ndarray :
+        Input image.
+    kernel_size : int :
+        Size of the median filter kernel.
+        
 
-    Returns:
-        ndarray: Denoised image.
+    Returns
+    -------
+    np.ndarray
+        Denoised image.
+
     """
     denoised_image = cv2.medianBlur(image, kernel_size)
     return denoised_image
 
-def gaussian_filter(image, kernel_size, sigma):
-    """
-    Apply Gaussian filtering to the input image.
 
-    Args:
-        image (ndarray): Input image.
-        sigma (float): Standard deviation of the Gaussian kernel.
+def gaussian_filter(image: np.ndarray, kernel_size: int, sigma: float) -> np.ndarray:
+    """Apply Gaussian filtering to the input image.
 
-    Returns:
-        ndarray: Denoised image.
+    Parameters
+    ----------
+    image : np.ndarray :
+        Input image.
+    kernel_size : int :
+        Size of the Gaussian filter kernel.
+    sigma : float
+        Standard deviation of the Gaussian kernel.
+        
+
+    Returns
+    -------
+    np.ndarray
+        Denoised image.
+
     """
     # Store the original shape of the image
     original_shape = image.shape
@@ -55,32 +72,42 @@ def gaussian_filter(image, kernel_size, sigma):
 
     return denoised_image
 
+
 ############################################
-def denoise_image(data: dict, image):
-    """
-    Denoise an image using the specified algorithm.
+def denoise_image(data: dict, image: Union[str, np.ndarray]) -> np.ndarray:
+    """Denoise an image using the specified algorithm.
 
-    Args:
-        image (ndarray): Name of image loaded with the loader module.
-        algorithm (str): Denoising algorithm to use.
-        algorithm specific parameters are passed through the config file (e.g.: kernel_size,sigma)
+    Parameters
+    ----------
+    data: dict :
+        Extra arguments for the denoising procedure: Possible arguments include
+        'denoising_algorithm' (one of "median" or "gaussian"), 'kernel_size_median',
+        'kernel_size_gaussian', and 'sigma'.
+        Please refer to the `median_filter` and `gaussian_filter` documentation in
+         `fijipy.processing.image_denoising` for more information.
+    image: Union[str : Image file path.
 
-    Returns:
-        ndarray: Denoised image.
+                 np.ndarray] : Image array.
+
+    Returns
+    -------
+    np.ndarray
+        Denoised image.
+
     """
     if isinstance(image, str):
         image = cv2.imread(image)
 
     # load hyperparameters from data json file
     algorithm = data['denoising_algorithm']
-    kernel_size_median = data['kernel_size_median']
-    kernel_size_gaussian = tuple(data['kernel_size_gaussian'])
-    sigma = data['sigma']
 
     # Apply the selected denoising algorithm
     if algorithm == 'median':
+        kernel_size_median = data['kernel_size_median']
         denoised_image = median_filter(image, kernel_size_median)
     elif algorithm == 'gaussian':
+        sigma = data['sigma']
+        kernel_size_gaussian = tuple(data['kernel_size_gaussian'])
         denoised_image = gaussian_filter(image, kernel_size_gaussian, sigma)
 
     return denoised_image
