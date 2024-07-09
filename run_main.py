@@ -15,7 +15,8 @@ def main():
     parser = argparse.ArgumentParser(
         description='Convert image to song.', \
         epilog='By PCP 2024 FijiPy')
-    
+    with open('data_file.json', "r") as read_file:
+        config_data = json.load(read_file)
     
     # arguments
     parser.add_argument('input_image_path', \
@@ -30,15 +31,8 @@ def main():
     
     # to-do 1
     parser.add_argument('--config', type=str, help='Path to the configuration file.', default='data_file.json')
-    args, unknown = parser.parse_known_args()
-    if args.config is not None:
-        config_file = args.config
-        with open(config_file, "r") as read_file:
-            config_data = json.load(read_file)
-    else:
-        config_file = 'data_file.json'
-        with open(config_file, "r") as read_file:
-            config_data = json.load(read_file)
+    # args, unknown = parser.parse_known_args()
+
     
     
     
@@ -150,6 +144,15 @@ def main():
     if args.version == 'True': 
         with open('VERSION', 'r') as f:
             print('version: ' + f.read())
+
+    if args.config is not None:
+        config_file = args.config
+        with open(config_file, "r") as read_file:
+         config_data = json.load(read_file)
+    else:
+        config_file = 'data_file.json'
+        with open(config_file, "r") as read_file:
+            config_data = json.load(read_file)
 
     if args.save_config is not None:
         config_file = args.save_config
