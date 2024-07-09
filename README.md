@@ -87,23 +87,30 @@ python run_main.py ./demodata/demo_Image.jpg crop demo_test.jpg
 ```
 
 #### Option 2: Docker
+
+#### Build a docker image 
+Option 1. Use Dockerfile
 ```bash
 docker build -t fijipy:latest . # Create a docker image from Docker file. (Do this at the top directory.)
-docker run fijipy:latest  input_path convertion_type output_path --optional=xxx 
-docker cp Container:"/app/output_path" "Destination in your local"
+```
+Option 2. Pull the docker image from docker hub.
+```bash
+docker pull yotakawashima/fijipy
 ```
 
-e.g. 
+#### Docker run
 ```bash
-docker build -t fijipy:latest . 
-docker run --name test_fijipy fijipy:latest ./demodata/demo_Image.jpg all demo_test.mid
-docker cp test_fijipy:"/app/demo_test.mid" "./demo_test.mid"
+docker run fijipy:latest input_path convertion_type output_path --optional=xxx 
 ```
-Once you done, you may want to delete the container. 
+e.g. (convert a demo image in the image. )
+```bash
+docker run --name test_fijipy fijipy:latest ./demodata/demo_Image.jpg all demo_test.mid
+docker cp test_fijipy:"/app/demo_test.mid" "./demo_test.mid" # copy file in the container to your local computer.
+docker rm test_fijipy # Remove the container
+```
 
 e.g. (convert download.jpeg in your local /full_path/data)
 ```bash
-docker build -t fijipy:latest .
 docker run --rm -v /full_path/data:/app/data --name fijipy_container fijipy:latest ./data/download.jpeg all ./data/download.mid
 ```
 
