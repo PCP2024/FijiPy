@@ -1,5 +1,14 @@
 # image2song
 
+## Table of Contents
+1. Description
+2. Functionality
+3. Contents of the repository
+4. Installation & Basic Usage
+5. Configuration
+6. License
+7. Authors & Acknowledgments
+
 ## 1. Description
 This library converts an image into a MIDI file by exploiting some of its characteristics to generate notes (edges), their pitch (position along the y axis of the image) and their velocity (saliency of corresponding pixel).
 
@@ -24,7 +33,9 @@ Individual functions performing transformations on the input image can be either
 - obtain saliency map
 - obtain midi file from edge and saliency maps
 
-## 3. Contents
+## 3. Contents of the repository
+The repository has the following tree structure:
+- main folder: project info, version files, main configuration file and master control script
 - processing: .py files for the pipeline
 - dataio: .py files to load images
 - demodata: demo image, and results after each processing step 
