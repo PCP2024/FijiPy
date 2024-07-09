@@ -202,7 +202,8 @@ def main():
     elif args.convert == 'image_2_midi':
         image = cv2.imread(args.input_image_path)
         proc_img = preprocess_compress.preprocess_compress_image(image,)
-
+        proc_img = cv2.rotate(proc_img, cv2.ROTATE_180)
+        proc_img = cv2.flip(proc_img, 1)
         print('--converting image to midi---')
         binarized_img = binarization.binarize_image(config_data, proc_img)
         print('1/5 steps completed')
@@ -220,7 +221,8 @@ def main():
         print('--full processing---')
         image = cv2.imread(args.input_image_path)
         proc_img = preprocess_compress.preprocess_compress_image(image,)
-
+        proc_img = cv2.rotate(proc_img, cv2.ROTATE_180)
+        proc_img = cv2.flip(proc_img, 1)
         print('--converting image to midi---')
         binarized_img = binarization.binarize_image(config_data, proc_img)
         print('1/5 steps completed')
